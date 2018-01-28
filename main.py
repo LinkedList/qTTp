@@ -21,11 +21,11 @@ class Qttp(Ui_MainWindow):
         self.url.returnPressed.connect(self.request)
 
     def request(self):
-        r = requests.get('https://' + self.url.text())
+        r = requests.request(method=self.method.currentText(), url='https://' + self.url.text())
         headers = r.headers
         headersText = ""
         for key in headers:
-            headersText += "<b>" + key +"</b>" + ": " + headers[key] + "<br />"
+            headersText += "<b>" + key +"</b>"+ ": " + headers[key] + "<br />"
         j = r.text
         parse = json.loads(j)
         dump = json.dumps(obj = parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
