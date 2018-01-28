@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import sys
 import json
 
 import requests
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow)
-from json2html import *
 
 from ui import Ui_MainWindow
 
@@ -23,8 +23,9 @@ class Qttp(Ui_MainWindow):
         r = requests.get('https://' + self.url.text())
         j = r.text
         parse = json.loads(j)
-        self.responseText.setHtml(json2html.convert(json=parse))
-
+        dump = json.dumps(obj = parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
+        print(dump)
+        self.responseText.setHtml(dump)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
