@@ -26,6 +26,7 @@ class Qttp(Ui_MainWindow):
         self.sendButton.clicked.connect(self.request)
         self.url.returnPressed.connect(self.request)
         self.historyList.doubleClicked.connect(self.setFromHistory)
+        self.splitter.setSizes([1, 3])
 
     def request(self):
         method = self.method.currentText()
