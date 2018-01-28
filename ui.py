@@ -114,7 +114,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -124,5 +124,5 @@ class Ui_MainWindow(object):
         self.method.setItemText(1, _translate("MainWindow", "POST"))
         self.sendButton.setText(_translate("MainWindow", "Send"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.responseTab), _translate("MainWindow", "Response"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.headersTab), _translate("MainWindow", "Page"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.headersTab), _translate("MainWindow", "Headers"))
 
