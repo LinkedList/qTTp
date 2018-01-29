@@ -5,6 +5,7 @@ import sys
 import json
 
 import requests
+from urllib.parse import urlparse
 from PyQt5 import QtCore
 from PyQt5.QtGui import (QStandardItemModel, QStandardItem)
 from PyQt5.QtWidgets import (
@@ -16,6 +17,7 @@ class Req(object):
     def __init__(self, method, protocol, url):
         super(Req, self).__init__()               
         self.method = method
+        self.protocol = protocol
         self.url = url
 
 class Qttp(Ui_MainWindow):
@@ -49,7 +51,9 @@ class Qttp(Ui_MainWindow):
     def request(self):
         method = self.method.currentText()
         url = self.url.text()
-        protocol = 'https'
+        parsedUrl = urlparse(url)
+        protocol = parsedUrl.scheme or "https"
+        url = parsedUrl.netloc + parsedUrl.path
         r = requests.request(method=method, url=protocol+"://"+url)
         historyItem = QListWidgetItem()
         historyItem.setText(method + " " + url)
@@ -67,7 +71,7 @@ class Qttp(Ui_MainWindow):
 
     def setFromHistory(self, item):
         req = item.data(QtCore.Qt.UserRole)
-        self.url.setText(req.url)
+        self.url.setText(req.protocol+"://"+req.url)
         index = self.method.findText(req.method)
         self.method.setCurrentIndex(index)
 
