@@ -20,6 +20,12 @@ class Req(object):
         self.protocol = protocol
         self.url = url
 
+    def buildUrl(self):
+        return self.protocol + "://" + self.url
+
+    def buildTextRepresentation(self):
+        return self.method + " " + self.url
+
 class Qttp(Ui_MainWindow):
     def __init__(self, w):
         Ui_MainWindow.__init__(self)
@@ -48,16 +54,19 @@ class Qttp(Ui_MainWindow):
 
         parent.appendRow(QStandardItem(item.method + " " + item.url))
 
-    def request(self):
+    def buildReqObject(self):
         method = self.method.currentText()
-        url = self.url.text()
-        parsedUrl = urlparse(url)
+        parsedUrl = urlparse(self.url.text())
         protocol = parsedUrl.scheme or "https"
         url = parsedUrl.netloc + parsedUrl.path
-        r = requests.request(method=method, url=protocol+"://"+url)
+        return Req(method, protocol, url)
+
+    def request(self):
+        reqObject = self.buildReqObject()
+        r = requests.request(method=reqObject.method, url=reqObject.buildUrl())
         historyItem = QListWidgetItem()
-        historyItem.setText(method + " " + url)
-        historyItem.setData(QtCore.Qt.UserRole, Req(method, protocol, url))
+        historyItem.setText(reqObject.buildTextRepresentation())
+        historyItem.setData(QtCore.Qt.UserRole, reqObject)
         self.historyList.insertItem(0, historyItem)
         headers = r.headers
         headersText = ""
@@ -71,7 +80,7 @@ class Qttp(Ui_MainWindow):
 
     def setFromHistory(self, item):
         req = item.data(QtCore.Qt.UserRole)
-        self.url.setText(req.protocol+"://"+req.url)
+        self.url.setText(req.buildUrl())
         index = self.method.findText(req.method)
         self.method.setCurrentIndex(index)
 
