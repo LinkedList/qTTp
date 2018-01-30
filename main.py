@@ -68,6 +68,11 @@ class Qttp(Ui_MainWindow):
         historyItem.setText(reqObject.buildTextRepresentation())
         historyItem.setData(QtCore.Qt.UserRole, reqObject)
         self.historyList.insertItem(0, historyItem)
+        if r.status_code == 200:
+            self.statusCode.setText("200 OK")
+            self.statusCode.setStyleSheet("QLabel { background-color : green; color : white; }")
+        else:
+            self.statusCode.setText("")
         headers = r.headers
         headersText = ""
         for key in headers:
