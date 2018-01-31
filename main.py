@@ -74,7 +74,7 @@ class Qttp(Ui_MainWindow):
         headersText = ""
         self.translateStatus(r.status_code)
         self.setTime(r.elapsed.total_seconds())
-        for key in headers:
+        for key in sorted(headers):
             headersText += "<b>" + key +"</b>"+ ": " + headers[key] + "<br />"
         j = r.text
         parse = json.loads(j)
