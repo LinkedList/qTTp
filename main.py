@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 from PyQt5 import QtCore
 from PyQt5.QtGui import (QStandardItemModel, QStandardItem)
 from PyQt5.QtWidgets import (
-        QApplication, QMainWindow, QListWidgetItem, QMenu)
+        QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView)
 
 from ui import Ui_MainWindow
 
@@ -38,12 +38,28 @@ class Qttp(Ui_MainWindow):
         self.historyList.doubleClicked.connect(self.setFromHistory)
         self.historyList.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.historyList.customContextMenuRequested.connect(self.historyMenu)
+        self.resizeInputHeadersHeader()
+        self.inputHeaders.setColumnCount(2)
+        self.inputHeaders.setRowCount(1)
+        self.inputHeaders.setHorizontalHeaderLabels(["Key", "Value"])
+        self.inputHeaders.cellDoubleClicked.connect(self.addHeaderRow)
         self.splitter.setSizes([1, 3])
 
         self.collectionsModel = QStandardItemModel()
         self.collectionsModel.appendRow(QStandardItem("Default"))
         self.collectionsTree.setModel(self.collectionsModel)
         self.collectionsTree.header().hide()
+
+    def resizeInputHeadersHeader(self):
+        header = self.inputHeaders.horizontalHeader()
+        for column in range(header.count()):
+            header.setSectionResizeMode(column, QHeaderView.Stretch)
+
+    def addHeaderRow(self):
+        count = self.inputHeaders.rowCount()
+        item = self.inputHeaders.item(count -1, 0)
+        if item:
+            self.inputHeaders.setRowCount(count + 1)
 
     def addCollectionItem(self, collection, item):
         items = self.collectionsModel.findItems(collection)
@@ -55,6 +71,17 @@ class Qttp(Ui_MainWindow):
 
         parent.appendRow(QStandardItem(item.method + " " + item.url))
 
+    def getInputHeaders(self):
+        returnDict = {}
+        rows = self.inputHeaders.rowCount()
+        for row in range(0, rows):
+            key = self.inputHeaders.item(row, 0)
+            value = self.inputHeaders.item(row, 1)
+            if key and value and key.text() and value.text():
+                returnDict[key.text()] = value.text()
+        return returnDict
+            
+
     def buildReqObject(self):
         method = self.method.currentText()
         parsedUrl = urlparse(self.url.text())
@@ -65,7 +92,9 @@ class Qttp(Ui_MainWindow):
     def request(self):
         self.reset()
         reqObject = self.buildReqObject()
-        r = requests.request(method=reqObject.method, url=reqObject.buildUrl())
+        inputHeaders = self.getInputHeaders()
+        print(inputHeaders)
+        r = requests.request(method=reqObject.method, url=reqObject.buildUrl(), headers=inputHeaders)
         historyItem = QListWidgetItem()
         historyItem.setText(reqObject.buildTextRepresentation())
         historyItem.setData(QtCore.Qt.UserRole, reqObject)
