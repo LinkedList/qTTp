@@ -63,8 +63,8 @@ class Qttp(Ui_MainWindow):
         return Req(method, protocol, url)
 
     def request(self):
+        self.reset()
         reqObject = self.buildReqObject()
-        self.statusCode.setText("")
         r = requests.request(method=reqObject.method, url=reqObject.buildUrl())
         historyItem = QListWidgetItem()
         historyItem.setText(reqObject.buildTextRepresentation())
@@ -73,6 +73,7 @@ class Qttp(Ui_MainWindow):
         headers = r.headers
         headersText = ""
         self.translateStatus(r.status_code)
+        self.setTime(r.elapsed.total_seconds())
         for key in headers:
             headersText += "<b>" + key +"</b>"+ ": " + headers[key] + "<br />"
         j = r.text
@@ -80,6 +81,11 @@ class Qttp(Ui_MainWindow):
         dump = json.dumps(obj = parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
         self.responseText.setHtml(dump)
         self.headersText.setHtml(headersText)
+
+    def reset(self):
+        self.statusCode.setText("")
+        self.time.setText("")
+
 
     def setFromHistory(self, item):
         req = item.data(QtCore.Qt.UserRole)
@@ -105,6 +111,9 @@ class Qttp(Ui_MainWindow):
             self.statusCode.setStyleSheet("QLabel { background-color : #FF851B; color : white; padding: 5px}")
         else:
             self.statusCode.setStyleSheet("QLabel { background-color : #FF4136; color : white; padding: 5px}")
+
+    def setTime(self, elapsed_seconds):
+        self.time.setText(str(int(elapsed_seconds * 1000)) + " ms")
 
 
 if __name__ == '__main__':
