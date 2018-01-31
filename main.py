@@ -5,6 +5,7 @@ import sys
 import json
 
 import requests
+from http.client import responses
 from urllib.parse import urlparse
 from PyQt5 import QtCore
 from PyQt5.QtGui import (QStandardItemModel, QStandardItem)
@@ -63,18 +64,15 @@ class Qttp(Ui_MainWindow):
 
     def request(self):
         reqObject = self.buildReqObject()
+        self.statusCode.setText("")
         r = requests.request(method=reqObject.method, url=reqObject.buildUrl())
         historyItem = QListWidgetItem()
         historyItem.setText(reqObject.buildTextRepresentation())
         historyItem.setData(QtCore.Qt.UserRole, reqObject)
         self.historyList.insertItem(0, historyItem)
-        if r.status_code == 200:
-            self.statusCode.setText("200 OK")
-            self.statusCode.setStyleSheet("QLabel { background-color : green; color : white; }")
-        else:
-            self.statusCode.setText("")
         headers = r.headers
         headersText = ""
+        self.translateStatus(r.status_code)
         for key in headers:
             headersText += "<b>" + key +"</b>"+ ": " + headers[key] + "<br />"
         j = r.text
@@ -96,6 +94,18 @@ class Qttp(Ui_MainWindow):
         if action == saveAction:
             item = self.historyList.itemAt(position)
             self.addCollectionItem("Default", item.data(QtCore.Qt.UserRole))
+
+    def translateStatus(self, code):
+        self.statusCode.setText(str(code) + " " + responses[code])
+        if code >= 100 and code < 200:
+            self.statusCode.setStyleSheet("QLabel { background-color : #0074D9; color : white; padding: 5px}")
+        elif code >= 200 and code < 300:
+            self.statusCode.setStyleSheet("QLabel { background-color : #2ECC40; color : white; padding: 5px}")
+        elif code >= 300 and code < 400:
+            self.statusCode.setStyleSheet("QLabel { background-color : #FF851B; color : white; padding: 5px}")
+        else:
+            self.statusCode.setStyleSheet("QLabel { background-color : #FF4136; color : white; padding: 5px}")
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
