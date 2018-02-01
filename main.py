@@ -10,16 +10,17 @@ from urllib.parse import urlparse
 from PyQt5 import QtCore
 from PyQt5.QtGui import (QStandardItemModel, QStandardItem)
 from PyQt5.QtWidgets import (
-        QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView)
+        QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView, QTableWidgetItem)
 
 from ui import Ui_MainWindow
 
 class Req(object):
-    def __init__(self, method, protocol, url):
+    def __init__(self, method, protocol, url, headers):
         super(Req, self).__init__()               
         self.method = method
         self.protocol = protocol
         self.url = url
+        self.headers = headers
 
     def buildUrl(self):
         return self.protocol + "://" + self.url
@@ -87,14 +88,13 @@ class Qttp(Ui_MainWindow):
         parsedUrl = urlparse(self.url.text())
         protocol = parsedUrl.scheme or "https"
         url = parsedUrl.netloc + parsedUrl.path
-        return Req(method, protocol, url)
+        headers = self.getInputHeaders()
+        return Req(method, protocol, url, headers)
 
     def request(self):
         self.reset()
         reqObject = self.buildReqObject()
-        inputHeaders = self.getInputHeaders()
-        print(inputHeaders)
-        r = requests.request(method=reqObject.method, url=reqObject.buildUrl(), headers=inputHeaders)
+        r = requests.request(method=reqObject.method, url=reqObject.buildUrl(), headers=reqObject.headers)
         historyItem = QListWidgetItem()
         historyItem.setText(reqObject.buildTextRepresentation())
         historyItem.setData(QtCore.Qt.UserRole, reqObject)
@@ -121,6 +121,16 @@ class Qttp(Ui_MainWindow):
         self.url.setText(req.buildUrl())
         index = self.method.findText(req.method)
         self.method.setCurrentIndex(index)
+        self.setInputHeadersFromHistory(req.headers)
+
+    def setInputHeadersFromHistory(self, headers):
+        self.inputHeaders.setRowCount(0)
+        for key, value in headers.items():
+            rowCount = self.inputHeaders.rowCount()
+            self.inputHeaders.insertRow(rowCount)
+            self.inputHeaders.setItem(rowCount, 0, QTableWidgetItem(key))
+            self.inputHeaders.setItem(rowCount, 1, QTableWidgetItem(value))
+        self.inputHeaders.insertRow(self.inputHeaders.rowCount())
 
     def historyMenu(self, position):
         menu = QMenu()
