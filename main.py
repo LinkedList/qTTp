@@ -60,6 +60,8 @@ class Qttp(Ui_MainWindow):
         self.inputHeaders.setRowCount(1)
         self.inputHeaders.setHorizontalHeaderLabels(["Key", "Value"])
         self.inputHeaders.cellDoubleClicked.connect(self.addHeaderRow)
+        self.inputHeaders.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.inputHeaders.customContextMenuRequested.connect(self.headersMenu)
         self.splitter.setSizes([1, 3])
 
         self.collectionsModel = QStandardItemModel()
@@ -79,6 +81,9 @@ class Qttp(Ui_MainWindow):
         item = self.inputHeaders.item(count -1, 0)
         if item:
             self.inputHeaders.setRowCount(count + 1)
+
+    def removeHeaderRow(self, item):
+        self.inputHeaders.removeRow(item.row())
 
     def addCollectionItem(self, collection, item):
         items = self.collectionsModel.findItems(collection)
@@ -166,6 +171,16 @@ class Qttp(Ui_MainWindow):
         if action == saveAction:
             item = self.historyList.itemAt(position)
             self.addCollectionItem("Default", item.data(QtCore.Qt.UserRole))
+
+    def headersMenu(self, position):
+        menu = QMenu()
+        deleteAction = menu.addAction("Delete")
+        action = menu.exec_(self.inputHeaders.mapToGlobal(position))
+        if action == deleteAction:
+            item = self.inputHeaders.itemAt(position)
+            if item:
+                self.removeHeaderRow(item)
+
 
     def translateStatus(self, code):
         self.statusCode.setText(str(code) + " " + responses[code])
