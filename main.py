@@ -35,6 +35,7 @@ class Qttp(Ui_MainWindow):
         self.url.setFocus()
 
         self.sendButton.clicked.connect(self.request)
+        self.saveButton.clicked.connect(self.saveRequest)
         self.url.returnPressed.connect(self.request)
         self.historyList.doubleClicked.connect(self.setFromHistory)
         self.historyList.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
@@ -118,6 +119,9 @@ class Qttp(Ui_MainWindow):
         self.statusCode.setText("")
         self.time.setText("")
 
+    def saveRequest(self):
+        item = self.buildReqObject()
+        self.addCollectionItem("Default", item)
 
     def setFromHistory(self, item):
         req = item.data(QtCore.Qt.UserRole)
