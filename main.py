@@ -50,6 +50,7 @@ class Qttp(Ui_MainWindow):
         self.collectionsModel.appendRow(QStandardItem("Default"))
         self.collectionsTree.setModel(self.collectionsModel)
         self.collectionsTree.header().hide()
+        self.collectionsTree.doubleClicked.connect(self.setFromHistory)
 
     def resizeInputHeadersHeader(self):
         header = self.inputHeaders.horizontalHeader()
@@ -70,7 +71,9 @@ class Qttp(Ui_MainWindow):
         else:
             parent = items.pop(0)
 
-        parent.appendRow(QStandardItem(item.method + " " + item.url))
+        newItem = QStandardItem(item.method + " " + item.url)
+        newItem.setData(item, QtCore.Qt.UserRole)
+        parent.appendRow(newItem)
 
     def getInputHeaders(self):
         returnDict = {}
