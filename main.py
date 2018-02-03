@@ -51,6 +51,7 @@ class Qttp(Ui_MainWindow):
         self.collectionsModel.appendRow(QStandardItem("Default"))
         self.collectionsTree.setModel(self.collectionsModel)
         self.collectionsTree.header().hide()
+        self.collectionsTree.expandToDepth(0)
         self.collectionsTree.doubleClicked.connect(self.setFromHistory)
 
     def resizeInputHeadersHeader(self):
