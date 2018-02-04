@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1153</width>
+    <width>943</width>
     <height>1014</height>
    </rect>
   </property>
@@ -179,7 +179,7 @@
         <item>
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="inputHeadersTab">
            <property name="sizePolicy">
@@ -207,7 +207,7 @@
                <number>2</number>
               </property>
               <attribute name="horizontalHeaderVisible">
-               <bool>true</bool>
+               <bool>false</bool>
               </attribute>
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>true</bool>
@@ -226,6 +226,121 @@
                </property>
               </column>
              </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="reqBodyTab">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <attribute name="title">
+            <string>Request body</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QRadioButton" name="formDataButton">
+                <property name="text">
+                 <string>form-data</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup</string>
+                </attribute>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="formUrlEncodedButton">
+                <property name="text">
+                 <string>&amp;x-www-form-urlencoded</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup</string>
+                </attribute>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="radioButton_2">
+                <property name="text">
+                 <string>raw</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup</string>
+                </attribute>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="binaryButton">
+                <property name="text">
+                 <string>bi&amp;nary</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup</string>
+                </attribute>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="comboBox">
+                <item>
+                 <property name="text">
+                  <string>Text</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Text (text/plain)</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>JSON (application/json)</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Javascript (application/javascript)</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>XML (application/xml)</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>XML (text/xml)</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>HTML (text/html)</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTextEdit" name="requestBody"/>
             </item>
            </layout>
           </widget>
@@ -332,8 +447,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1153</width>
-     <height>28</height>
+     <width>943</width>
+     <height>30</height>
     </rect>
    </property>
   </widget>
@@ -341,4 +456,7 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>
