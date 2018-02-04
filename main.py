@@ -5,14 +5,17 @@ import sys
 import json
 
 import requests
+from requests import Response
 from http.client import responses
 from urllib.parse import urlparse
 from PyQt5 import QtCore
+from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtGui import (QStandardItemModel, QStandardItem)
 from PyQt5.QtWidgets import (
         QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView, QTableWidgetItem)
 
 from ui import Ui_MainWindow
+
 
 class Req(object):
     def __init__(self, method, protocol, url, headers):
@@ -27,6 +30,18 @@ class Req(object):
 
     def buildTextRepresentation(self):
         return self.method + " " + self.url
+
+class ReqThread(QThread):
+
+    request_done = pyqtSignal(Response, Req)
+
+    def __init__(self, reqObject):
+        QThread.__init__(self)
+        self.reqObject = reqObject
+
+    def run(self):
+        response = requests.request(method=self.reqObject.method, url=self.reqObject.buildUrl(), headers=self.reqObject.headers)
+        self.request_done.emit(response, self.reqObject)
 
 class Qttp(Ui_MainWindow):
     def __init__(self, w):
@@ -99,18 +114,22 @@ class Qttp(Ui_MainWindow):
     def request(self):
         self.reset()
         reqObject = self.buildReqObject()
-        r = requests.request(method=reqObject.method, url=reqObject.buildUrl(), headers=reqObject.headers)
+        self.thread = ReqThread(reqObject)
+        self.thread.request_done.connect(self.afterRequest)
+        self.thread.start()
+
+    def afterRequest(self, response, reqObject):
         historyItem = QListWidgetItem()
         historyItem.setText(reqObject.buildTextRepresentation())
         historyItem.setData(QtCore.Qt.UserRole, reqObject)
         self.historyList.insertItem(0, historyItem)
-        headers = r.headers
+        headers = response.headers
         headersText = ""
-        self.translateStatus(r.status_code)
-        self.setTime(r.elapsed.total_seconds())
+        self.translateStatus(response.status_code)
+        self.setTime(response.elapsed.total_seconds())
         for key in sorted(headers):
             headersText += "<b>" + key +"</b>"+ ": " + headers[key] + "<br />"
-        j = r.text
+        j = response.text
         parse = json.loads(j)
         dump = json.dumps(obj = parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
         self.responseText.setHtml(dump)
