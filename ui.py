@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(943, 1014)
+        MainWindow.resize(1384, 609)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -82,7 +82,7 @@ class Ui_MainWindow(object):
         self.requestSplitter.setSizePolicy(sizePolicy)
         self.requestSplitter.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.requestSplitter.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.requestSplitter.setOrientation(QtCore.Qt.Vertical)
+        self.requestSplitter.setOrientation(QtCore.Qt.Horizontal)
         self.requestSplitter.setHandleWidth(2)
         self.requestSplitter.setObjectName("requestSplitter")
         self.layoutWidget = QtWidgets.QWidget(self.requestSplitter)
@@ -256,7 +256,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.collectionsSplitter)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 943, 30))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1384, 30))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)

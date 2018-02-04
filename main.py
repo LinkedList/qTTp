@@ -63,7 +63,6 @@ class Qttp(Ui_MainWindow):
         self.inputHeaders.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.inputHeaders.customContextMenuRequested.connect(self.headersMenu)
         self.collectionsSplitter.setSizes([100, 500])
-        self.requestSplitter.setSizes([50, 550])
 
         self.collectionsModel = QStandardItemModel()
         self.collectionsModel.appendRow(QStandardItem("Default"))
