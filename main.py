@@ -5,6 +5,7 @@ import sys
 import json
 
 import requests
+from req import Req
 from requests import Response
 from http.client import responses
 from urllib.parse import urlparse
@@ -15,21 +16,6 @@ from PyQt5.QtWidgets import (
         QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView, QTableWidgetItem)
 
 from ui import Ui_MainWindow
-
-
-class Req(object):
-    def __init__(self, method, protocol, url, headers):
-        super(Req, self).__init__()               
-        self.method = method
-        self.protocol = protocol
-        self.url = url
-        self.headers = headers
-
-    def buildUrl(self):
-        return self.protocol + "://" + self.url
-
-    def buildTextRepresentation(self):
-        return self.method + " " + self.url
 
 class ReqThread(QThread):
 
