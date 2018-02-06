@@ -5,6 +5,7 @@ import sys
 import json
 
 import requests
+from response_status_bar import Ui_ResponseStatusBar
 from req import Req
 from requests import Response
 from http.client import responses
@@ -13,9 +14,35 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtGui import (QStandardItemModel, QStandardItem)
 from PyQt5.QtWidgets import (
+        QWidget,
         QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView, QTableWidgetItem)
 
 from ui import Ui_MainWindow
+
+class ResponseStatusBarWidget(QWidget, Ui_ResponseStatusBar):
+    def __init__(self):
+        super(ResponseStatusBarWidget, self).__init__()
+        self.setupUi(self)
+
+    def translateStatus(self, code):
+        self.statusCode.setText(str(code) + " " + responses[code])
+        stylesheet = None
+        if code >= 100 and code < 200:
+            stylesheet = "QLabel { background-color : #0074D9; color : white; padding: 5px}"
+        elif code >= 200 and code < 300:
+            stylesheet = "QLabel { background-color : #2ECC40; color : white; padding: 5px}"
+        elif code >= 300 and code < 400:
+            stylesheet = "QLabel { background-color : #FF851B; color : white; padding: 5px}"
+        else:
+            stylesheet = "QLabel { background-color : #FF4136; color : white; padding: 5px}"
+        self.statusCode.setStyleSheet(stylesheet)
+
+    def reset(self):
+        self.statusCode.setText("")
+        self.time.setText("")
+
+    def setTime(self, elapsed_seconds):
+        self.time.setText(str(int(elapsed_seconds * 1000)) + " ms")
 
 class ReqThread(QThread):
 
@@ -33,8 +60,11 @@ class Qttp(Ui_MainWindow):
     def __init__(self, w):
         Ui_MainWindow.__init__(self)
         self.setupUi(w)
-        self.url.setFocus()
 
+        self.responseStatus = ResponseStatusBarWidget()
+        self.responseLayout.addWidget(self.responseStatus)
+
+        self.url.setFocus()
         self.sendButton.clicked.connect(self.request)
         self.saveButton.clicked.connect(self.saveRequest)
         self.url.returnPressed.connect(self.request)
@@ -103,7 +133,7 @@ class Qttp(Ui_MainWindow):
         return Req(method, protocol, url, headers)
 
     def request(self):
-        self.reset()
+        self.responseStatus.reset()
         reqObject = self.buildReqObject()
         self.thread = ReqThread(reqObject)
         self.thread.request_done.connect(self.afterRequest)
@@ -116,8 +146,8 @@ class Qttp(Ui_MainWindow):
         self.historyList.insertItem(0, historyItem)
         headers = response.headers
         headersText = ""
-        self.translateStatus(response.status_code)
-        self.setTime(response.elapsed.total_seconds())
+        self.responseStatus.translateStatus(response.status_code)
+        self.responseStatus.setTime(response.elapsed.total_seconds())
         for key in sorted(headers):
             headersText += "<b>" + key +"</b>"+ ": " + headers[key] + "<br />"
         j = response.text
@@ -125,10 +155,6 @@ class Qttp(Ui_MainWindow):
         dump = json.dumps(obj = parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
         self.responseText.setHtml(dump)
         self.headersText.setHtml(headersText)
-
-    def reset(self):
-        self.statusCode.setText("")
-        self.time.setText("")
 
     def saveRequest(self):
         item = self.buildReqObject()
@@ -168,16 +194,6 @@ class Qttp(Ui_MainWindow):
                 self.removeHeaderRow(item)
 
 
-    def translateStatus(self, code):
-        self.statusCode.setText(str(code) + " " + responses[code])
-        if code >= 100 and code < 200:
-            self.statusCode.setStyleSheet("QLabel { background-color : #0074D9; color : white; padding: 5px}")
-        elif code >= 200 and code < 300:
-            self.statusCode.setStyleSheet("QLabel { background-color : #2ECC40; color : white; padding: 5px}")
-        elif code >= 300 and code < 400:
-            self.statusCode.setStyleSheet("QLabel { background-color : #FF851B; color : white; padding: 5px}")
-        else:
-            self.statusCode.setStyleSheet("QLabel { background-color : #FF4136; color : white; padding: 5px}")
 
     def setTime(self, elapsed_seconds):
         self.time.setText(str(int(elapsed_seconds * 1000)) + " ms")
