@@ -50,6 +50,7 @@ class ResponseStatusBarWidget(QWidget, Ui_ResponseStatusBar):
         self.statusCode.setStyleSheet(stylesheet)
 
     def reset(self):
+        self.statusCode.setStyleSheet("QLabel { background-color : none}")
         self.statusCode.setText("")
         self.time.setText("")
 
