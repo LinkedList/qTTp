@@ -73,6 +73,7 @@ class Qttp(Ui_MainWindow):
     def __init__(self, w):
         Ui_MainWindow.__init__(self)
         self.setupUi(w)
+        w.setWindowTitle("qTTp")
 
         self.progress = StatusBarProgress()
         self.statusbar.addPermanentWidget(self.progress)
