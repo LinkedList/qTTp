@@ -168,11 +168,24 @@ class Qttp(Ui_MainWindow):
         self.responseStatus.setTime(response.elapsed.total_seconds())
         for key in sorted(headers):
             headersText += "<b>" + key +"</b>"+ ": " + headers[key] + "<br />"
-        j = response.text
-        parse = json.loads(j)
-        dump = json.dumps(obj = parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
-        self.responseText.setHtml(dump)
+        if 'application/json' in response.headers['content-type']:
+            body = self.parseJson(response)
+            self.responseText.setHtml(body)
+        else:
+            body = response.text
+            self.responseText.setPlainText(body)
+
         self.headersText.setHtml(headersText)
+
+    def parseJson(self, response):
+        try:
+            response.json()
+            j = response.text
+            parse = json.loads(j)
+            dump = json.dumps(obj = parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
+            return dump
+        except ValueError:
+            return ""
 
     def saveRequest(self):
         item = self.buildReqObject()
