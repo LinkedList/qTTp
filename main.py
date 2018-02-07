@@ -14,10 +14,22 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtGui import (QStandardItemModel, QStandardItem)
 from PyQt5.QtWidgets import (
-        QWidget,
+        QWidget, QProgressBar,
         QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView, QTableWidgetItem)
 
 from ui import Ui_MainWindow
+
+class StatusBarProgress(QProgressBar):
+    def __init__(self):
+        super(StatusBarProgress, self).__init__()
+        self.setRange(0, 1)
+
+    def start(self):
+        self.setRange(0, 0)
+
+    def end(self):
+        self.setRange(0, 1)
+
 
 class ResponseStatusBarWidget(QWidget, Ui_ResponseStatusBar):
     def __init__(self):
@@ -60,6 +72,9 @@ class Qttp(Ui_MainWindow):
     def __init__(self, w):
         Ui_MainWindow.__init__(self)
         self.setupUi(w)
+
+        self.progress = StatusBarProgress()
+        self.statusbar.addPermanentWidget(self.progress)
 
         self.responseStatus = ResponseStatusBarWidget()
         self.responseLayout.addWidget(self.responseStatus)
@@ -137,9 +152,11 @@ class Qttp(Ui_MainWindow):
         reqObject = self.buildReqObject()
         self.thread = ReqThread(reqObject)
         self.thread.request_done.connect(self.afterRequest)
+        self.progress.start()
         self.thread.start()
 
     def afterRequest(self, response, reqObject):
+        self.progress.end()
         historyItem = QListWidgetItem()
         historyItem.setText(reqObject.buildTextRepresentation())
         historyItem.setData(QtCore.Qt.UserRole, reqObject)
