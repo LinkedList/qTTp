@@ -3,6 +3,7 @@
 
 import sys
 import json
+from builtins import staticmethod
 
 import requests
 from response_status_bar import Ui_ResponseStatusBar
@@ -38,12 +39,11 @@ class ResponseStatusBarWidget(QWidget, Ui_ResponseStatusBar):
 
     def translateStatus(self, code):
         self.statusCode.setText(str(code) + " " + responses[code])
-        stylesheet = None
-        if code >= 100 and code < 200:
+        if 100 <= code < 200:
             stylesheet = "QLabel { background-color : #0074D9; color : white; padding: 5px}"
-        elif code >= 200 and code < 300:
+        elif 200 <= code < 300:
             stylesheet = "QLabel { background-color : #2ECC40; color : white; padding: 5px}"
-        elif code >= 300 and code < 400:
+        elif 300 <= code < 400:
             stylesheet = "QLabel { background-color : #FF851B; color : white; padding: 5px}"
         else:
             stylesheet = "QLabel { background-color : #FF4136; color : white; padding: 5px}"
@@ -120,7 +120,6 @@ class Qttp(Ui_MainWindow):
 
     def addCollectionItem(self, collection, item):
         items = self.collectionsModel.findItems(collection)
-        parent = None
         if not items:
             parent = QStandardItem(collection)
         else:
@@ -178,7 +177,8 @@ class Qttp(Ui_MainWindow):
 
         self.headersText.setHtml(headersText)
 
-    def parseJson(self, response):
+    @staticmethod
+    def parseJson(response):
         try:
             response.json()
             j = response.text
