@@ -378,59 +378,6 @@
          <property name="bottomMargin">
           <number>5</number>
          </property>
-         <item>
-          <widget class="QTabWidget" name="tabWidget">
-           <property name="currentIndex">
-            <number>0</number>
-           </property>
-           <widget class="QWidget" name="responseTab">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <attribute name="title">
-             <string>Response</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <item>
-              <widget class="QTextBrowser" name="responseText">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="headersTab">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <attribute name="title">
-             <string>Headers</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <item>
-              <widget class="QTextBrowser" name="headersText">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-         </item>
         </layout>
        </widget>
       </widget>

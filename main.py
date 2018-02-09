@@ -7,6 +7,7 @@ from builtins import staticmethod
 
 import requests
 from response_status_bar import Ui_ResponseStatusBar
+from response_tabs import Ui_ResponseTabs
 from req import Req
 from requests import Response
 from http.client import responses
@@ -15,7 +16,7 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtGui import (QStandardItemModel, QStandardItem)
 from PyQt5.QtWidgets import (
-        QWidget, QProgressBar,
+        QWidget, QProgressBar, QTabWidget,
         QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView, QTableWidgetItem)
 
 from ui import Ui_MainWindow
@@ -57,6 +58,37 @@ class ResponseStatusBarWidget(QWidget, Ui_ResponseStatusBar):
     def setTime(self, elapsed_seconds):
         self.time.setText(str(int(elapsed_seconds * 1000)) + " ms")
 
+class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
+    def __init__(self):
+        super(ResponseTabsWidget, self).__init__()
+        self.setupUi(self)
+
+    def setHeaders(self, headers):
+        headersText = ""
+        for key in sorted(headers):
+            headersText += "<b>" + key +"</b>"+ ": " + headers[key] + "<br />"
+        self.headersText.setHtml(headersText)
+
+    def setResponseBody(self, response):
+        if 'application/json' in response.headers['content-type']:
+            body = self.parseJson(response)
+            self.responseText.setHtml(body)
+        else:
+            body = response.text
+            self.responseText.setPlainText(body)
+
+    @staticmethod
+    def parseJson(response):
+        try:
+            response.json()
+            j = response.text
+            parse = json.loads(j)
+            dump = json.dumps(obj = parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
+            return dump
+        except ValueError:
+            return ""
+
+
 class ReqThread(QThread):
 
     request_done = pyqtSignal(Response, Req)
@@ -80,6 +112,9 @@ class Qttp(Ui_MainWindow):
 
         self.responseStatus = ResponseStatusBarWidget()
         self.responseLayout.addWidget(self.responseStatus)
+
+        self.responseTabs = ResponseTabsWidget()
+        self.responseLayout.addWidget(self.responseTabs)
 
         self.url.setFocus()
         self.sendButton.clicked.connect(self.request)
@@ -162,31 +197,11 @@ class Qttp(Ui_MainWindow):
         historyItem.setText(reqObject.buildTextRepresentation())
         historyItem.setData(QtCore.Qt.UserRole, reqObject)
         self.historyList.insertItem(0, historyItem)
-        headers = response.headers
-        headersText = ""
         self.responseStatus.translateStatus(response.status_code)
         self.responseStatus.setTime(response.elapsed.total_seconds())
-        for key in sorted(headers):
-            headersText += "<b>" + key +"</b>"+ ": " + headers[key] + "<br />"
-        if 'application/json' in response.headers['content-type']:
-            body = self.parseJson(response)
-            self.responseText.setHtml(body)
-        else:
-            body = response.text
-            self.responseText.setPlainText(body)
+        self.responseTabs.setHeaders(response.headers)
+        self.responseTabs.setResponseBody(response)
 
-        self.headersText.setHtml(headersText)
-
-    @staticmethod
-    def parseJson(response):
-        try:
-            response.json()
-            j = response.text
-            parse = json.loads(j)
-            dump = json.dumps(obj = parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
-            return dump
-        except ValueError:
-            return ""
 
     def saveRequest(self):
         item = self.buildReqObject()
