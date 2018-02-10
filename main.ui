@@ -94,7 +94,7 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <widget class="QListWidget" name="historyList">
+          <widget class="QTreeView" name="historyList">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>

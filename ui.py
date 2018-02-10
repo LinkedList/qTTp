@@ -65,7 +65,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_31 = QtWidgets.QVBoxLayout(self.historyTab)
         self.verticalLayout_31.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_31.setObjectName("verticalLayout_31")
-        self.historyList = QtWidgets.QListWidget(self.historyTab)
+        self.historyList = QtWidgets.QTreeView(self.historyTab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)

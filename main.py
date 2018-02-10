@@ -132,6 +132,12 @@ class Qttp(Ui_MainWindow):
         self.inputHeaders.customContextMenuRequested.connect(self.headersMenu)
         self.collectionsSplitter.setSizes([100, 500])
 
+        self.historyModel = QStandardItemModel()
+        self.historyList.setModel(self.historyModel)
+        self.historyList.header().hide()
+        self.historyList.expandToDepth(0)
+        self.historyList.doubleClicked.connect(self.setFromHistory)
+
         self.collectionsModel = QStandardItemModel()
         self.collectionsModel.appendRow(QStandardItem("Default"))
         self.collectionsTree.setModel(self.collectionsModel)
@@ -193,15 +199,23 @@ class Qttp(Ui_MainWindow):
 
     def afterRequest(self, response, reqObject):
         self.progress.end()
-        historyItem = QListWidgetItem()
-        historyItem.setText(reqObject.buildTextRepresentation())
-        historyItem.setData(QtCore.Qt.UserRole, reqObject)
-        self.historyList.insertItem(0, historyItem)
+        self.insertToHistory(response, reqObject)
         self.responseStatus.translateStatus(response.status_code)
         self.responseStatus.setTime(response.elapsed.total_seconds())
         self.responseTabs.setHeaders(response.headers)
         self.responseTabs.setResponseBody(response)
 
+    def insertToHistory(self, response, reqObject):
+        parents = self.historyModel.findItems(str(reqObject.date))
+        if not parents:
+            parent = QStandardItem(str(reqObject.date))
+            self.historyModel.appendRow(parent)
+        else:
+            parent = parents.pop()
+
+        historyItem = QStandardItem(reqObject.buildTextRepresentation())
+        historyItem.setData(reqObject, QtCore.Qt.UserRole)
+        parent.insertRow(0, historyItem)
 
     def saveRequest(self):
         item = self.buildReqObject()
@@ -228,7 +242,8 @@ class Qttp(Ui_MainWindow):
         saveAction = menu.addAction("Save")
         action = menu.exec_(self.historyList.mapToGlobal(position))
         if action == saveAction:
-            item = self.historyList.itemAt(position)
+            index = self.historyList.indexAt(position)
+            item = self.historyModel.itemFromIndex(index)
             self.addCollectionItem("Default", item.data(QtCore.Qt.UserRole))
 
     def headersMenu(self, position):
