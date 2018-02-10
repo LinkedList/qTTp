@@ -16,10 +16,23 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtGui import (QStandardItemModel, QStandardItem)
 from PyQt5.QtWidgets import (
-        QWidget, QProgressBar, QTabWidget,
+        QWidget, QProgressBar, QTabWidget, QPushButton,
         QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView, QTableWidgetItem)
 
 from ui import Ui_MainWindow
+
+class CancelRequest(QPushButton):
+
+    cancel_request = pyqtSignal()
+
+    def __init__(self):
+        super(CancelRequest, self).__init__()
+        self.setText("Cancel")
+        self.clicked.connect(self.onCancel)
+
+    def onCancel(self):
+        self.cancel_request.emit()
+
 
 class StatusBarProgress(QProgressBar):
     def __init__(self):
@@ -92,6 +105,7 @@ class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
 class ReqThread(QThread):
 
     request_done = pyqtSignal(Response, Req)
+    request_stopped = pyqtSignal()
 
     def __init__(self, reqObject):
         QThread.__init__(self)
@@ -101,6 +115,10 @@ class ReqThread(QThread):
         response = requests.request(method=self.reqObject.method, url=self.reqObject.buildUrl(), headers=self.reqObject.headers)
         self.request_done.emit(response, self.reqObject)
 
+    def stop(self):
+        self.exit()
+        self.request_stopped.emit()
+
 class Qttp(Ui_MainWindow):
     def __init__(self, w):
         Ui_MainWindow.__init__(self)
@@ -108,7 +126,9 @@ class Qttp(Ui_MainWindow):
         w.setWindowTitle("qTTp")
 
         self.progress = StatusBarProgress()
+        self.cancelButton = CancelRequest()
         self.statusbar.addPermanentWidget(self.progress)
+        self.statusbar.addPermanentWidget(self.cancelButton)
 
         self.responseStatus = ResponseStatusBarWidget()
         self.responseLayout.addWidget(self.responseStatus)
@@ -194,8 +214,13 @@ class Qttp(Ui_MainWindow):
         reqObject = self.buildReqObject()
         self.thread = ReqThread(reqObject)
         self.thread.request_done.connect(self.afterRequest)
+        self.thread.request_stopped.connect(self.afterStoppedRequest)
+        self.cancelButton.cancel_request.connect(self.thread.stop)
         self.progress.start()
         self.thread.start()
+
+    def afterStoppedRequest(self):
+        self.progress.end()
 
     def afterRequest(self, response, reqObject):
         self.progress.end()
