@@ -29,9 +29,18 @@ class CancelRequest(QPushButton):
         super(CancelRequest, self).__init__()
         self.setText("Cancel")
         self.clicked.connect(self.onCancel)
+        self.disable()
 
     def onCancel(self):
         self.cancel_request.emit()
+        self.disable()
+
+    def enable(self):
+        self.setEnabled(True)
+
+    def disable(self):
+        self.setEnabled(False)
+
 
 
 class StatusBarProgress(QProgressBar):
@@ -216,6 +225,7 @@ class Qttp(Ui_MainWindow):
         self.thread.request_done.connect(self.afterRequest)
         self.thread.request_stopped.connect(self.afterStoppedRequest)
         self.cancelButton.cancel_request.connect(self.thread.stop)
+        self.cancelButton.enable()
         self.progress.start()
         self.thread.start()
 
