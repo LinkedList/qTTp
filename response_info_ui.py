@@ -30,6 +30,10 @@ class Ui_ResponseInfo(object):
         self.time.setText("")
         self.time.setObjectName("time")
         self.reqStatusLayout.addWidget(self.time)
+        self.contentType = QtWidgets.QLabel(ResponseInfo)
+        self.contentType.setText("")
+        self.contentType.setObjectName("contentType")
+        self.reqStatusLayout.addWidget(self.contentType)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.reqStatusLayout.addItem(spacerItem)
 

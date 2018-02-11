@@ -23,9 +23,13 @@ class ResponseInfo(QWidget, Ui_ResponseInfo):
         self.statusCode.setStyleSheet("QLabel { background-color : none}")
         self.statusCode.setText("")
         self.time.setText("")
+        self.contentType.setText("")
 
     def setTime(self, elapsed_seconds):
         self.time.setText(str(int(elapsed_seconds * 1000)) + " ms")
+
+    def setContentType(self, contentType):
+        self.contentType.setText(contentType)
 
     def stylesheet(self, color):
         return "QLabel { background-color: "+color+"; color: white; padding: 4px}"

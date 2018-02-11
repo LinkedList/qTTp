@@ -6,6 +6,7 @@ import json
 from builtins import staticmethod
 
 import requests
+from headersCompleter import Headers
 from response_info import ResponseInfo
 from response_tabs import Ui_ResponseTabs
 from status_bar import StatusBar
@@ -14,13 +15,33 @@ from requests import Response
 from http.client import responses
 from urllib.parse import urlparse
 from PyQt5 import QtCore
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtCore import QThread, pyqtSignal, Qt
 from PyQt5.QtGui import (QStandardItemModel, QStandardItem)
 from PyQt5.QtWidgets import (
-        QWidget, QProgressBar, QTabWidget, QPushButton,
+        QWidget, QProgressBar, QTabWidget, QPushButton, QCompleter, QStyledItemDelegate, QLineEdit,
         QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView, QTableWidgetItem)
 
+
 from ui import Ui_MainWindow
+
+class CompleterDelegate(QStyledItemDelegate):
+    def __init__(self, parent=None, completerSetupFunction=None):
+        super(CompleterDelegate, self).__init__(parent)
+        self._completerSetupFunction = completerSetupFunction
+    def createEditor(self, parent, option, index):
+        editor = QLineEdit(parent)
+        self._completerSetupFunction(editor, index)
+        return editor
+
+def _completerSetupFunction(editor, index):
+    completer = QCompleter(Headers.getData(), editor)
+    completer.setCompletionColumn(0)
+    completer.setCompletionRole(Qt.EditRole)
+    completer.setCaseSensitivity(Qt.CaseInsensitive)
+    try:    
+        editor.setCompleter(completer)            
+    except:
+        pass
 
 class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
     def __init__(self):
@@ -99,6 +120,11 @@ class Qttp(Ui_MainWindow):
         self.inputHeaders.cellDoubleClicked.connect(self.addHeaderRow)
         self.inputHeaders.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.inputHeaders.customContextMenuRequested.connect(self.headersMenu)
+
+        if _completerSetupFunction is not None:
+            delegate = CompleterDelegate(self.inputHeaders, _completerSetupFunction)
+            self.inputHeaders.setItemDelegateForColumn(0, delegate) 
+
         self.collectionsSplitter.setSizes([100, 500])
 
         self.historyModel = QStandardItemModel()
@@ -196,6 +222,7 @@ class Qttp(Ui_MainWindow):
         self.insertToHistory(response, reqObject)
         self.responseInfo.translateStatus(response.status_code)
         self.responseInfo.setTime(response.elapsed.total_seconds())
+        self.responseInfo.setContentType(response.headers["content-type"])
         self.responseTabs.setHeaders(response.headers)
         self.responseTabs.setResponseBody(response)
 
