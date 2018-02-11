@@ -173,6 +173,8 @@ class Qttp(Ui_MainWindow):
         self.collectionsTree.header().hide()
         self.collectionsTree.expandToDepth(0)
         self.collectionsTree.doubleClicked.connect(self.setFromHistory)
+        self.collectionsTree.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.collectionsTree.customContextMenuRequested.connect(self.collectionsMenu)
 
         self.disableRequestBody()
 
@@ -302,6 +304,17 @@ class Qttp(Ui_MainWindow):
         elif action == deleteAction:
             index = self.historyList.indexAt(position)
             item = self.historyModel.itemFromIndex(index)
+            if item:
+                parent = item.parent()
+                parent.removeRow(index.row())
+
+    def collectionsMenu(self, position):
+        menu = QMenu()
+        deleteAction = menu.addAction("Delete")
+        action = menu.exec_(self.historyList.mapToGlobal(position))
+        if action == deleteAction:
+            index = self.collectionsTree.indexAt(position)
+            item = self.collectionsModel.itemFromIndex(index)
             if item:
                 parent = item.parent()
                 parent.removeRow(index.row())
