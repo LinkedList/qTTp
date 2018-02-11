@@ -6,7 +6,7 @@ import json
 from builtins import staticmethod
 
 import requests
-from response_status_bar import Ui_ResponseStatusBar
+from response_info import ResponseInfo
 from response_tabs import Ui_ResponseTabs
 from status_bar import StatusBar
 from req import Req
@@ -21,31 +21,6 @@ from PyQt5.QtWidgets import (
         QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView, QTableWidgetItem)
 
 from ui import Ui_MainWindow
-
-class ResponseStatusBarWidget(QWidget, Ui_ResponseStatusBar):
-    def __init__(self):
-        super(ResponseStatusBarWidget, self).__init__()
-        self.setupUi(self)
-
-    def translateStatus(self, code):
-        self.statusCode.setText(str(code) + " " + responses[code])
-        if 100 <= code < 200:
-            stylesheet = "QLabel { background-color : #0074D9; color : white; padding: 5px}"
-        elif 200 <= code < 300:
-            stylesheet = "QLabel { background-color : #2ECC40; color : white; padding: 5px}"
-        elif 300 <= code < 400:
-            stylesheet = "QLabel { background-color : #FF851B; color : white; padding: 5px}"
-        else:
-            stylesheet = "QLabel { background-color : #FF4136; color : white; padding: 5px}"
-        self.statusCode.setStyleSheet(stylesheet)
-
-    def reset(self):
-        self.statusCode.setStyleSheet("QLabel { background-color : none}")
-        self.statusCode.setText("")
-        self.time.setText("")
-
-    def setTime(self, elapsed_seconds):
-        self.time.setText(str(int(elapsed_seconds * 1000)) + " ms")
 
 class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
     def __init__(self):
@@ -104,8 +79,8 @@ class Qttp(Ui_MainWindow):
         self.statusBar = StatusBar()
         self.statusbar.addPermanentWidget(self.statusBar)
 
-        self.responseStatus = ResponseStatusBarWidget()
-        self.responseLayout.addWidget(self.responseStatus)
+        self.responseInfo = ResponseInfo()
+        self.responseLayout.addWidget(self.responseInfo)
 
         self.responseTabs = ResponseTabsWidget()
         self.responseLayout.addWidget(self.responseTabs)
@@ -204,7 +179,7 @@ class Qttp(Ui_MainWindow):
         return Req(method, protocol, url, headers)
 
     def request(self):
-        self.responseStatus.reset()
+        self.responseInfo.reset()
         reqObject = self.buildReqObject()
         self.thread = ReqThread(reqObject)
         self.thread.request_done.connect(self.afterRequest)
@@ -219,8 +194,8 @@ class Qttp(Ui_MainWindow):
     def afterRequest(self, response, reqObject):
         self.statusBar.disable()
         self.insertToHistory(response, reqObject)
-        self.responseStatus.translateStatus(response.status_code)
-        self.responseStatus.setTime(response.elapsed.total_seconds())
+        self.responseInfo.translateStatus(response.status_code)
+        self.responseInfo.setTime(response.elapsed.total_seconds())
         self.responseTabs.setHeaders(response.headers)
         self.responseTabs.setResponseBody(response)
 

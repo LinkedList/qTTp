@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-  <class>ResponseStatusBar</class>
-  <widget class="QWidget" name="ResponseStatusBar">
+  <class>ResponseInfo</class>
+  <widget class="QWidget" name="ResponseInfo">
     <layout class="QHBoxLayout" name="reqStatusLayout">
       <property name="leftMargin">
         <number>6</number>
