@@ -201,7 +201,7 @@
          <item>
           <widget class="QTabWidget" name="tabWidget">
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="inputHeadersTab">
             <property name="sizePolicy">
@@ -288,7 +288,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QRadioButton" name="radioButton_2">
+                <widget class="QRadioButton" name="rawButton">
                  <property name="text">
                   <string>raw</string>
                  </property>
@@ -391,7 +391,7 @@
      <x>0</x>
      <y>0</y>
      <width>1384</width>
-     <height>30</height>
+     <height>28</height>
     </rect>
    </property>
   </widget>
