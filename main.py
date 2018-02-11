@@ -293,11 +293,19 @@ class Qttp(Ui_MainWindow):
     def historyMenu(self, position):
         menu = QMenu()
         saveAction = menu.addAction("Save")
+        deleteAction = menu.addAction("Delete")
         action = menu.exec_(self.historyList.mapToGlobal(position))
         if action == saveAction:
             index = self.historyList.indexAt(position)
             item = self.historyModel.itemFromIndex(index)
             self.addCollectionItem("Default", item.data(QtCore.Qt.UserRole))
+        elif action == deleteAction:
+            index = self.historyList.indexAt(position)
+            item = self.historyModel.itemFromIndex(index)
+            if item:
+                parent = item.parent()
+                parent.removeRow(index.row())
+
 
     def headersMenu(self, position):
         menu = QMenu()
