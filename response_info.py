@@ -10,13 +10,13 @@ class ResponseInfo(QWidget, Ui_ResponseInfo):
     def translateStatus(self, code):
         self.statusCode.setText(str(code) + " " + responses[code])
         if 100 <= code < 200:
-            stylesheet = "QLabel { background-color : #0074D9; color : white; padding: 5px}"
+            stylesheet = self.stylesheet("#0074D9")
         elif 200 <= code < 300:
-            stylesheet = "QLabel { background-color : #2ECC40; color : white; padding: 5px}"
+            stylesheet = self.stylesheet("#2ECC40")
         elif 300 <= code < 400:
-            stylesheet = "QLabel { background-color : #FF851B; color : white; padding: 5px}"
+            stylesheet = self.stylesheet("#FF851B")
         else:
-            stylesheet = "QLabel { background-color : #FF4136; color : white; padding: 5px}"
+            stylesheet = self.stylesheet("#FF4136")
         self.statusCode.setStyleSheet(stylesheet)
 
     def reset(self):
@@ -26,3 +26,6 @@ class ResponseInfo(QWidget, Ui_ResponseInfo):
 
     def setTime(self, elapsed_seconds):
         self.time.setText(str(int(elapsed_seconds * 1000)) + " ms")
+
+    def stylesheet(self, color):
+        return "QLabel { background-color: "+color+"; color: white; padding: 4px}"
