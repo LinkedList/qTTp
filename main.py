@@ -174,6 +174,24 @@ class Qttp(Ui_MainWindow):
         self.collectionsTree.expandToDepth(0)
         self.collectionsTree.doubleClicked.connect(self.setFromHistory)
 
+        self.disableRequestBody()
+
+        self.method.currentTextChanged.connect(self.onMethodChange)
+
+    def enableRequestBody(self):
+        bodyTabIndex = self.tabWidget1.indexOf(self.reqBodyTab)
+        self.tabWidget1.setTabEnabled(bodyTabIndex, True)
+
+    def disableRequestBody(self):
+        bodyTabIndex = self.tabWidget1.indexOf(self.reqBodyTab)
+        self.tabWidget1.setTabEnabled(bodyTabIndex, False)
+
+    def onMethodChange(self, httpMethod):
+        if httpMethod == "GET":
+            self.disableRequestBody()
+        else:
+            self.enableRequestBody()
+
     def resizeInputHeadersHeader(self):
         header = self.inputHeaders.horizontalHeader()
         for column in range(header.count()):
