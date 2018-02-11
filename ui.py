@@ -105,6 +105,7 @@ class Ui_MainWindow(object):
         self.method.addItem("")
         self.horizontalLayout.addWidget(self.method)
         self.url = QtWidgets.QLineEdit(self.layoutWidget)
+        self.url.setClearButtonEnabled(True)
         self.url.setObjectName("url")
         self.horizontalLayout.addWidget(self.url)
         self.sendButton = QtWidgets.QPushButton(self.layoutWidget)
