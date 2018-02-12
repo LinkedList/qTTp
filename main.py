@@ -231,13 +231,16 @@ class Qttp(Ui_MainWindow):
             collections.append(self.collectionsModel.item(row).text())
         return collections
 
-    def saveRequest(self):
-        item = self.buildReqObject()
+    def _saveRequest(self, item):
         self.saveDialog = SaveToCollectionDialog(self.getCollections())
         self.saveDialog.exec_()
         collection = self.saveDialog.collections.currentText()
         if collection:
             self.addCollectionItem(collection, item)
+
+    def saveRequest(self):
+        item = self.buildReqObject()
+        self._saveRequest(item)
 
 
     def setFromHistory(self, item):
@@ -264,7 +267,7 @@ class Qttp(Ui_MainWindow):
         if action == saveAction:
             index = self.historyList.indexAt(position)
             item = self.historyModel.itemFromIndex(index)
-            self.addCollectionItem("Default", item.data(QtCore.Qt.UserRole))
+            self._saveRequest(item.data(QtCore.Qt.UserRole))
         elif action == deleteAction:
             index = self.historyList.indexAt(position)
             item = self.historyModel.itemFromIndex(index)
