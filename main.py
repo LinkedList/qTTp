@@ -6,6 +6,7 @@ import json
 from builtins import staticmethod
 
 import requests
+from save_to_collection_dialog import SaveToCollectionDialog
 from headers_completer import HeadersCompleter
 from url_completer import UrlCompleter
 from response_info import ResponseInfo
@@ -162,6 +163,7 @@ class Qttp(Ui_MainWindow):
         items = self.collectionsModel.findItems(collection)
         if not items:
             parent = QStandardItem(collection)
+            self.collectionsModel.appendRow(parent)
         else:
             parent = items.pop(0)
 
@@ -223,9 +225,20 @@ class Qttp(Ui_MainWindow):
         historyItem.setData(reqObject, QtCore.Qt.UserRole)
         parent.insertRow(0, historyItem)
 
+    def getCollections(self):
+        collections = []
+        for row in range(0, self.collectionsModel.rowCount()):
+            collections.append(self.collectionsModel.item(row).text())
+        return collections
+
     def saveRequest(self):
         item = self.buildReqObject()
-        self.addCollectionItem("Default", item)
+        self.saveDialog = SaveToCollectionDialog(self.getCollections())
+        self.saveDialog.exec_()
+        collection = self.saveDialog.collections.currentText()
+        if collection:
+            self.addCollectionItem(collection, item)
+
 
     def setFromHistory(self, item):
         req = item.data(QtCore.Qt.UserRole)
