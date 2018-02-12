@@ -7,6 +7,7 @@ from builtins import staticmethod
 
 import requests
 from headers_completer import HeadersCompleter
+from url_completer import UrlCompleter
 from response_info import ResponseInfo
 from response_tabs import Ui_ResponseTabs
 from status_bar import StatusBar
@@ -102,8 +103,11 @@ class Qttp(Ui_MainWindow):
         self.inputHeaders.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.inputHeaders.customContextMenuRequested.connect(self.headersMenu)
 
-        delegate = HeadersCompleter(self.inputHeaders)
-        self.inputHeaders.setItemDelegateForColumn(0, delegate) 
+        headersDelegate = HeadersCompleter(self.inputHeaders)
+        self.inputHeaders.setItemDelegateForColumn(0, headersDelegate) 
+
+        self.urlCompleter = UrlCompleter(self.url)
+        self.url.setCompleter(self.urlCompleter)
 
         self.collectionsSplitter.setSizes([100, 500])
 
@@ -199,6 +203,7 @@ class Qttp(Ui_MainWindow):
 
     def afterRequest(self, response, reqObject):
         self.statusBar.disable()
+        self.urlCompleter.addItem(reqObject)
         self.insertToHistory(response, reqObject)
         self.responseInfo.translateStatus(response.status_code)
         self.responseInfo.setTime(response.elapsed.total_seconds())
