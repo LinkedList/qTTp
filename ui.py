@@ -221,7 +221,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "qTTp"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.collectionsTab), _translate("MainWindow", "Collections"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.historyTab), _translate("MainWindow", "History"))
         self.method.setItemText(0, _translate("MainWindow", "GET"))
