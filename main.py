@@ -18,7 +18,7 @@ from http.client import responses
 from urllib.parse import urlparse
 from PyQt5 import QtCore
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
-from PyQt5.QtGui import (QStandardItemModel, QStandardItem)
+from PyQt5.QtGui import (QStandardItemModel, QStandardItem, QIcon)
 from PyQt5.QtWidgets import (
         QWidget, QProgressBar, QTabWidget, QPushButton, QCompleter, QStyledItemDelegate, QLineEdit,
         QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView, QTableWidgetItem)
@@ -119,7 +119,9 @@ class Qttp(Ui_MainWindow):
         self.historyList.doubleClicked.connect(self.setFromHistory)
 
         self.collectionsModel = QStandardItemModel()
-        self.collectionsModel.appendRow(QStandardItem("Default"))
+        default = QStandardItem("Default")
+        default.setIcon(QIcon("folder.svg"))
+        self.collectionsModel.appendRow(default)
         self.collectionsTree.setModel(self.collectionsModel)
         self.collectionsTree.header().hide()
         self.collectionsTree.expandToDepth(0)
@@ -163,6 +165,7 @@ class Qttp(Ui_MainWindow):
         items = self.collectionsModel.findItems(collection)
         if not items:
             parent = QStandardItem(collection)
+            parent.setIcon(QIcon('folder.svg'))
             self.collectionsModel.appendRow(parent)
         else:
             parent = items.pop(0)
