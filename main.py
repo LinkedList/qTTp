@@ -6,7 +6,7 @@ import json
 from builtins import staticmethod
 
 import requests
-from save_to_collection_dialog import SaveToCollectionDialog
+from collections_history_tabs import CollectionsHistoryTabs
 from headers_completer import HeadersCompleter
 from url_completer import UrlCompleter
 from response_info import ResponseInfo
@@ -92,9 +92,6 @@ class Qttp(Ui_MainWindow):
         self.sendButton.clicked.connect(self.request)
         self.saveButton.clicked.connect(self.saveRequest)
         self.url.returnPressed.connect(self.request)
-        self.historyList.doubleClicked.connect(self.setFromHistory)
-        self.historyList.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        self.historyList.customContextMenuRequested.connect(self.historyMenu)
         self.resizeInputHeadersHeader()
         self.inputHeaders.setColumnCount(2)
         self.inputHeaders.setRowCount(1)
@@ -111,34 +108,21 @@ class Qttp(Ui_MainWindow):
 
         self.collectionsSplitter.setSizes([100, 500])
 
-        self.historyModel = QStandardItemModel()
-        self.historyList.setModel(self.historyModel)
-        self.historyList.header().hide()
-        self.historyList.expandToDepth(0)
-        self.historyList.doubleClicked.connect(self.setFromHistory)
-
-        self.collectionsModel = QStandardItemModel()
-        default = QStandardItem("Default")
-        default.setIcon(QIcon("folder.svg"))
-        self.collectionsModel.appendRow(default)
-        self.collectionsTree.setModel(self.collectionsModel)
-        self.collectionsTree.header().hide()
-        self.collectionsTree.expandToDepth(0)
-        self.collectionsTree.doubleClicked.connect(self.setFromHistory)
-        self.collectionsTree.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        self.collectionsTree.customContextMenuRequested.connect(self.collectionsMenu)
+        self.collectionsHistoryTabs = CollectionsHistoryTabs()
+        self.collectionsHistoryTabs.set_item.connect(self.setFromHistory)
+        self.collectionsHistoryLayout.addWidget(self.collectionsHistoryTabs)
 
         self.disableRequestBody()
 
         self.method.currentTextChanged.connect(self.onMethodChange)
 
     def enableRequestBody(self):
-        bodyTabIndex = self.tabWidget1.indexOf(self.reqBodyTab)
-        self.tabWidget1.setTabEnabled(bodyTabIndex, True)
+        bodyTabIndex = self.tabWidget.indexOf(self.reqBodyTab)
+        self.tabWidget.setTabEnabled(bodyTabIndex, True)
 
     def disableRequestBody(self):
-        bodyTabIndex = self.tabWidget1.indexOf(self.reqBodyTab)
-        self.tabWidget1.setTabEnabled(bodyTabIndex, False)
+        bodyTabIndex = self.tabWidget.indexOf(self.reqBodyTab)
+        self.tabWidget.setTabEnabled(bodyTabIndex, False)
 
     def onMethodChange(self, httpMethod):
         if httpMethod == "GET":
@@ -159,19 +143,6 @@ class Qttp(Ui_MainWindow):
 
     def removeHeaderRow(self, item):
         self.inputHeaders.removeRow(item.row())
-
-    def addCollectionItem(self, collection, item):
-        items = self.collectionsModel.findItems(collection)
-        if not items:
-            parent = QStandardItem(collection)
-            parent.setIcon(QIcon('folder.svg'))
-            self.collectionsModel.appendRow(parent)
-        else:
-            parent = items.pop(0)
-
-        newItem = QStandardItem(item.method + " " + item.url)
-        newItem.setData(item, QtCore.Qt.UserRole)
-        parent.appendRow(newItem)
 
     def getInputHeaders(self):
         returnDict = {}
@@ -208,45 +179,18 @@ class Qttp(Ui_MainWindow):
     def afterRequest(self, response, reqObject):
         self.statusBar.disable()
         self.urlCompleter.addItem(reqObject)
-        self.insertToHistory(response, reqObject)
+        self.collectionsHistoryTabs.insertToHistory(response, reqObject)
         self.responseInfo.translateStatus(response.status_code)
         self.responseInfo.setTime(response.elapsed.total_seconds())
         self.responseInfo.setContentType(response.headers["content-type"])
         self.responseTabs.setHeaders(response.headers)
         self.responseTabs.setResponseBody(response)
 
-    def insertToHistory(self, response, reqObject):
-        parents = self.historyModel.findItems(str(reqObject.date))
-        if not parents:
-            parent = QStandardItem(str(reqObject.date))
-            self.historyModel.appendRow(parent)
-        else:
-            parent = parents.pop()
-
-        historyItem = QStandardItem(reqObject.buildTextRepresentation())
-        historyItem.setData(reqObject, QtCore.Qt.UserRole)
-        parent.insertRow(0, historyItem)
-
-    def getCollections(self):
-        collections = []
-        for row in range(0, self.collectionsModel.rowCount()):
-            collections.append(self.collectionsModel.item(row).text())
-        return collections
-
-    def _saveRequest(self, item):
-        self.saveDialog = SaveToCollectionDialog(self.getCollections())
-        self.saveDialog.exec_()
-        collection = self.saveDialog.collections.currentText()
-        if collection:
-            self.addCollectionItem(collection, item)
-
     def saveRequest(self):
         item = self.buildReqObject()
-        self._saveRequest(item)
+        self.collectionsHistoryTabs._saveRequest(item)
 
-
-    def setFromHistory(self, item):
-        req = item.data(QtCore.Qt.UserRole)
+    def setFromHistory(self, req):
         self.url.setText(req.buildUrl())
         index = self.method.findText(req.method)
         self.method.setCurrentIndex(index)
@@ -260,34 +204,6 @@ class Qttp(Ui_MainWindow):
             self.inputHeaders.setItem(rowCount, 0, QTableWidgetItem(key))
             self.inputHeaders.setItem(rowCount, 1, QTableWidgetItem(value))
         self.inputHeaders.insertRow(self.inputHeaders.rowCount())
-
-    def historyMenu(self, position):
-        menu = QMenu()
-        saveAction = menu.addAction("Save")
-        deleteAction = menu.addAction("Delete")
-        action = menu.exec_(self.historyList.mapToGlobal(position))
-        if action == saveAction:
-            index = self.historyList.indexAt(position)
-            item = self.historyModel.itemFromIndex(index)
-            self._saveRequest(item.data(QtCore.Qt.UserRole))
-        elif action == deleteAction:
-            index = self.historyList.indexAt(position)
-            item = self.historyModel.itemFromIndex(index)
-            if item:
-                parent = item.parent()
-                parent.removeRow(index.row())
-
-    def collectionsMenu(self, position):
-        menu = QMenu()
-        deleteAction = menu.addAction("Delete")
-        action = menu.exec_(self.historyList.mapToGlobal(position))
-        if action == deleteAction:
-            index = self.collectionsTree.indexAt(position)
-            item = self.collectionsModel.itemFromIndex(index)
-            if item:
-                parent = item.parent()
-                parent.removeRow(index.row())
-
 
     def headersMenu(self, position):
         menu = QMenu()

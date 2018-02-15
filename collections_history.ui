@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+  <class>CollectionsHistoryTabs</class>
+  <widget class="QTabWidget" name="tabWidget">
+    <property name="currentIndex">
+      <number>0</number>
+    </property>
+    <widget class="QWidget" name="collectionsTab">
+      <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+        </sizepolicy>
+      </property>
+      <attribute name="title">
+        <string>Collections</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+          <widget class="QTreeView" name="collectionsTree"/>
+        </item>
+      </layout>
+    </widget>
+    <widget class="QWidget" name="historyTab">
+      <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+        </sizepolicy>
+      </property>
+      <attribute name="title">
+        <string>History</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+          <widget class="QTreeView" name="historyList">
+            <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+              </sizepolicy>
+            </property>
+          </widget>
+        </item>
+      </layout>
+    </widget>
+  </widget>
+  <resources/>
+  <connections/>
+</ui>
