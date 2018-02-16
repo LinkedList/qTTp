@@ -9,6 +9,8 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
         
     set_item = pyqtSignal(Req)
 
+    folder_icon = QIcon("folder.svg")
+
     def __init__(self):
         super(CollectionsHistoryTabs, self).__init__()
         self.setupUi(self)
@@ -24,7 +26,7 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
 
         self.collectionsModel = QStandardItemModel()
         default = QStandardItem("Default")
-        default.setIcon(QIcon("folder.svg"))
+        default.setIcon(self.folder_icon)
         self.collectionsModel.appendRow(default)
         self.collectionsTree.setModel(self.collectionsModel)
         self.collectionsTree.header().hide()
@@ -71,9 +73,13 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
                 parent.removeRow(index.row())
 
     def _saveRequest(self, item):
-        self.saveDialog = SaveToCollectionDialog(self.getCollections())
-        self.saveDialog.exec_()
-        collection = self.saveDialog.collections.currentText()
+        maybeSelected = self.collectionsTree.selectedIndexes()
+        if maybeSelected:
+            collection = self.collectionsModel.item(maybeSelected[0].row()).text()
+        else:
+            self.saveDialog = SaveToCollectionDialog(self.getCollections())
+            self.saveDialog.exec_()
+            collection = self.saveDialog.collections.currentText()
         if collection:
             self.addCollectionItem(collection, item)
 
@@ -93,7 +99,7 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
         items = self.collectionsModel.findItems(collection)
         if not items:
             parent = QStandardItem(collection)
-            parent.setIcon(QIcon('folder.svg'))
+            parent.setIcon(self.folder_icon)
             self.collectionsModel.appendRow(parent)
         else:
             parent = items.pop(0)
