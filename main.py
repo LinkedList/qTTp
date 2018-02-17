@@ -67,7 +67,11 @@ class ReqThread(QThread):
         self.reqObject = reqObject
 
     def run(self):
-        response = requests.request(method=self.reqObject.method, url=self.reqObject.buildUrl(), headers=self.reqObject.headers)
+        response = requests.request(
+                method=self.reqObject.method,
+                url=self.reqObject.buildUrl(),
+                headers=self.reqObject.headers,
+                data=self.reqObject.body)
         self.request_done.emit(response, self.reqObject)
 
     def stop(self):
@@ -161,7 +165,8 @@ class Qttp(Ui_MainWindow):
         protocol = parsedUrl.scheme or "https"
         url = parsedUrl.netloc + parsedUrl.path
         headers = self.getInputHeaders()
-        return Req(method, protocol, url, headers)
+        body =  self.requestBody.toPlainText()
+        return Req(method, protocol, url, headers, body)
 
     def request(self):
         self.responseInfo.reset()
@@ -195,6 +200,7 @@ class Qttp(Ui_MainWindow):
         index = self.method.findText(req.method)
         self.method.setCurrentIndex(index)
         self.setInputHeadersFromHistory(req.headers)
+        self.requestBody.setText(req.body)
 
     def setInputHeadersFromHistory(self, headers):
         self.inputHeaders.setRowCount(0)
