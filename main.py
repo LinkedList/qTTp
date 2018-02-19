@@ -3,6 +3,7 @@
 
 import sys
 import json
+from configparser import ConfigParser
 from builtins import staticmethod
 
 import requests
@@ -78,10 +79,12 @@ class ReqThread(QThread):
         self.exit()
         self.request_stopped.emit()
 
-class Qttp(Ui_MainWindow):
-    def __init__(self, w):
-        Ui_MainWindow.__init__(self)
-        self.setupUi(w)
+class Qttp(QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super(Qttp, self).__init__()
+        self.setupUi(self)
+
+        self.prepareConfig()
 
         self.statusBar = StatusBar()
         self.statusbar.addPermanentWidget(self.statusBar)
@@ -110,15 +113,37 @@ class Qttp(Ui_MainWindow):
         self.urlCompleter = UrlCompleter(self.url)
         self.url.setCompleter(self.urlCompleter)
 
-        self.collectionsSplitter.setSizes([100, 500])
-
         self.collectionsHistoryTabs = CollectionsHistoryTabs()
         self.collectionsHistoryTabs.set_item.connect(self.setFromHistory)
         self.collectionsHistoryLayout.addWidget(self.collectionsHistoryTabs)
 
+        self.mainSplitter.setSizes(self.getMainSplitterSizes())
+
         self.disableRequestBody()
 
         self.method.currentTextChanged.connect(self.onMethodChange)
+
+    def getMainSplitterSizes(self):
+        config = self.config
+        config.read('config.ini')
+        sizes = config['splitter']['sizes']
+        if sizes:
+            return map(int, sizes.split(","))
+
+        return []
+
+    def prepareConfig(self):
+        config = ConfigParser()
+        config.read('config.ini')
+        if not config.has_section('splitter'):
+            config['splitter'] = {}
+
+        if not config.has_option('splitter', 'sizes'):
+            config['splitter']['sizes'] = ",".join(map(str, [200, 400, 400]))
+
+        with open('config.ini', 'w') as configfile:
+            config.write(configfile)
+        self.config = config
 
     def enableRequestBody(self):
         bodyTabIndex = self.tabWidget.indexOf(self.reqBodyTab)
@@ -220,15 +245,17 @@ class Qttp(Ui_MainWindow):
             if item:
                 self.removeHeaderRow(item)
 
-
+    def closeEvent(self, event):
+        config = self.config
+        config['splitter']['sizes'] =  ",".join(map(str, self.mainSplitter.sizes()))
+        with open('config.ini', 'w') as configfile:
+            config.write(configfile)
 
     def setTime(self, elapsed_seconds):
         self.time.setText(str(int(elapsed_seconds * 1000)) + " ms")
 
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = QMainWindow()
-    prog = Qttp(window)
-    window.show()
+    prog = Qttp()
+    prog.show()
     sys.exit(app.exec_())
