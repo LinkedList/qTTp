@@ -7,6 +7,7 @@ from configparser import ConfigParser
 from builtins import staticmethod
 
 import requests
+from req_thread import ReqThread
 from collections_history_tabs import CollectionsHistoryTabs
 from headers_completer import HeadersCompleter
 from url_completer import UrlCompleter
@@ -56,28 +57,6 @@ class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
             return dump
         except ValueError:
             return ""
-
-
-class ReqThread(QThread):
-
-    request_done = pyqtSignal(Response, Req)
-    request_stopped = pyqtSignal()
-
-    def __init__(self, reqObject):
-        QThread.__init__(self)
-        self.reqObject = reqObject
-
-    def run(self):
-        response = requests.request(
-                method=self.reqObject.method,
-                url=self.reqObject.buildUrl(),
-                headers=self.reqObject.headers,
-                data=self.reqObject.body)
-        self.request_done.emit(response, self.reqObject)
-
-    def stop(self):
-        self.exit()
-        self.request_stopped.emit()
 
 class Qttp(QMainWindow, Ui_MainWindow):
     def __init__(self):
