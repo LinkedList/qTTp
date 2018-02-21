@@ -100,7 +100,32 @@ class Qttp(QMainWindow, Ui_MainWindow):
 
         self.disableRequestBody()
 
+        self.buttonGroup.buttonClicked.connect(self.postBodySwitched)
         self.method.currentTextChanged.connect(self.onMethodChange)
+
+    def postBodySwitched(self, button):
+        if button is self.formUrlEncodedButton:
+            self.setContentType('application/x-www-form-urlencoded')
+        elif button is self.binaryButton:
+            self.setContentType('application/octet-stream')
+
+    def setContentType(self, contentTypeToSet):
+        contentType = self.inputHeaders.findItems("Content-Type", Qt.MatchExactly)
+        if len(contentType) > 0:
+            row = contentType[0].row()
+        else:
+            self.addHeaderRow()
+            row = self.inputHeaders.rowCount() - 1
+        item = self.inputHeaders.item(row, 1)
+        if not item:
+            headerName = QTableWidgetItem()
+            headerName.setText('Content-Type')
+            self.inputHeaders.setItem(row, 0, headerName)
+            item = QTableWidgetItem()
+            self.inputHeaders.setItem(row, 1, item)
+            self.addHeaderRow()
+
+        item.setText(contentTypeToSet)
 
     def getMainSplitterSizes(self):
         config = self.config
