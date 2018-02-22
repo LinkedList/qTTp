@@ -1,32 +1,26 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import sys
 import json
-from configparser import ConfigParser
+import sys
 from builtins import staticmethod
+from configparser import ConfigParser
+from urllib.parse import urlparse
 
-import requests
-from req_thread import ReqThread
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import (
+    QTabWidget, QApplication, QMainWindow, QMenu, QHeaderView, QTableWidgetItem)
+
 from collections_history_tabs import CollectionsHistoryTabs
 from headers_completer import HeadersCompleter
-from url_completer import UrlCompleter
+from req import Req
+from req_thread import ReqThread
 from response_info import ResponseInfo
 from response_tabs import Ui_ResponseTabs
 from status_bar import StatusBar
-from req import Req
-from requests import Response
-from http.client import responses
-from urllib.parse import urlparse
-from PyQt5 import QtCore
-from PyQt5.QtCore import QThread, pyqtSignal, Qt
-from PyQt5.QtGui import (QStandardItemModel, QStandardItem, QIcon)
-from PyQt5.QtWidgets import (
-        QWidget, QProgressBar, QTabWidget, QPushButton, QCompleter, QStyledItemDelegate, QLineEdit,
-        QApplication, QMainWindow, QListWidgetItem, QMenu, QHeaderView, QTableWidgetItem)
-
-
 from ui import Ui_MainWindow
+from url_completer import UrlCompleter
+
 
 class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
     def __init__(self):
@@ -36,7 +30,7 @@ class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
     def setHeaders(self, headers):
         headersText = ""
         for key in sorted(headers):
-            headersText += "<b>" + key +"</b>"+ ": " + headers[key] + "<br />"
+            headersText += "<b>" + key + "</b>" + ": " + headers[key] + "<br />"
         self.headersText.setHtml(headersText)
 
     def setResponseBody(self, response):
@@ -53,10 +47,11 @@ class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
             response.json()
             j = response.text
             parse = json.loads(j)
-            dump = json.dumps(obj = parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
+            dump = json.dumps(obj=parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
             return dump
         except ValueError:
             return ""
+
 
 class Qttp(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -87,7 +82,7 @@ class Qttp(QMainWindow, Ui_MainWindow):
         self.inputHeaders.customContextMenuRequested.connect(self.headersMenu)
 
         headersDelegate = HeadersCompleter(self.inputHeaders)
-        self.inputHeaders.setItemDelegateForColumn(0, headersDelegate) 
+        self.inputHeaders.setItemDelegateForColumn(0, headersDelegate)
 
         self.urlCompleter = UrlCompleter(self.url)
         self.url.setCompleter(self.urlCompleter)
@@ -170,7 +165,7 @@ class Qttp(QMainWindow, Ui_MainWindow):
 
     def addHeaderRow(self):
         count = self.inputHeaders.rowCount()
-        item = self.inputHeaders.item(count -1, 0)
+        item = self.inputHeaders.item(count - 1, 0)
         if item:
             self.inputHeaders.setRowCount(count + 1)
 
@@ -186,7 +181,6 @@ class Qttp(QMainWindow, Ui_MainWindow):
             if key and value and key.text() and value.text():
                 returnDict[key.text()] = value.text()
         return returnDict
-            
 
     def buildReqObject(self):
         method = self.method.currentText()
@@ -194,7 +188,7 @@ class Qttp(QMainWindow, Ui_MainWindow):
         protocol = parsedUrl.scheme or "https"
         url = parsedUrl.netloc + parsedUrl.path
         headers = self.getInputHeaders()
-        body =  self.requestBody.toPlainText()
+        body = self.requestBody.toPlainText()
         return Req(method, protocol, url, headers, body)
 
     def request(self):
@@ -251,12 +245,13 @@ class Qttp(QMainWindow, Ui_MainWindow):
 
     def closeEvent(self, event):
         config = self.config
-        config['splitter']['sizes'] =  ",".join(map(str, self.mainSplitter.sizes()))
+        config['splitter']['sizes'] = ",".join(map(str, self.mainSplitter.sizes()))
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
 
     def setTime(self, elapsed_seconds):
         self.time.setText(str(int(elapsed_seconds * 1000)) + " ms")
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
