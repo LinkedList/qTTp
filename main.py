@@ -15,43 +15,11 @@ from collections_history_tabs import CollectionsHistoryTabs
 from headers_completer import HeadersCompleter
 from req import Req
 from req_thread import ReqThread
+from response_tabs_widget import ResponseTabsWidget
 from response_info import ResponseInfo
-from response_tabs import Ui_ResponseTabs
 from status_bar import StatusBar
 from ui import Ui_MainWindow
 from url_completer import UrlCompleter
-
-
-class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
-    def __init__(self):
-        super(ResponseTabsWidget, self).__init__()
-        self.setupUi(self)
-
-    def setHeaders(self, headers):
-        headersText = ""
-        for key in sorted(headers):
-            headersText += "<b>" + key + "</b>" + ": " + headers[key] + "<br />"
-        self.headersText.setHtml(headersText)
-
-    def setResponseBody(self, response):
-        if 'application/json' in response.headers['content-type']:
-            body = self.parseJson(response)
-            self.responseText.setHtml(body)
-        else:
-            body = response.text
-            self.responseText.setPlainText(body)
-
-    @staticmethod
-    def parseJson(response):
-        try:
-            response.json()
-            j = response.text
-            parse = json.loads(j)
-            dump = json.dumps(obj=parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
-            return dump
-        except ValueError:
-            return ""
-
 
 class Qttp(QMainWindow, Ui_MainWindow):
     def __init__(self):
