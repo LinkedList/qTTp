@@ -8,6 +8,7 @@ from configparser import ConfigParser
 from urllib.parse import urlparse
 
 from PyQt5 import QtCore
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (
     QTabWidget, QApplication, QMainWindow, QMenu, QHeaderView, QTableWidgetItem)
 
@@ -71,6 +72,8 @@ class Qttp(QMainWindow, Ui_MainWindow):
             self.setContentType('application/x-www-form-urlencoded')
         elif button is self.binaryButton:
             self.setContentType('application/octet-stream')
+        elif button is self.formDataButton:
+            self.setContentType('multipart/form-data')
 
     def setContentType(self, contentTypeToSet):
         contentType = self.inputHeaders.findItems("Content-Type", Qt.MatchExactly)
