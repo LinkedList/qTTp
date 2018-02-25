@@ -38,6 +38,8 @@ class Qttp(QMainWindow, Ui_MainWindow):
         self.responseTabs = ResponseTabsWidget()
         self.responseLayout.addWidget(self.responseTabs)
 
+        self.comboBox.setEnabled(False)
+
         self.url.setFocus()
         self.sendButton.clicked.connect(self.request)
         self.saveButton.clicked.connect(self.saveRequest)
@@ -74,6 +76,11 @@ class Qttp(QMainWindow, Ui_MainWindow):
             self.setContentType('application/octet-stream')
         elif button is self.formDataButton:
             self.setContentType('multipart/form-data')
+
+        if button is self.rawButton:
+            self.comboBox.setEnabled(True)
+        else:
+            self.comboBox.setEnabled(False)
 
     def setContentType(self, contentTypeToSet):
         contentType = self.inputHeaders.findItems("Content-Type", Qt.MatchExactly)
