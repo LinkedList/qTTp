@@ -10,8 +10,9 @@ from urllib.parse import urlparse
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (
-    QTabWidget, QApplication, QMainWindow, QMenu, QHeaderView, QTableWidgetItem)
+    QTabWidget, QApplication, QMainWindow, QMenu, QHeaderView, QTableWidgetItem, QFileDialog)
 
+from file_line import FileLine
 from collections_history_tabs import CollectionsHistoryTabs
 from headers_completer import HeadersCompleter
 from req import Req
@@ -28,6 +29,7 @@ class Qttp(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self.prepareConfig()
+        self.fileLine = FileLine()
 
         self.statusBar = StatusBar()
         self.statusbar.addPermanentWidget(self.statusBar)
@@ -74,6 +76,9 @@ class Qttp(QMainWindow, Ui_MainWindow):
             self.setContentType('application/x-www-form-urlencoded')
         elif button is self.binaryButton:
             self.setContentType('application/octet-stream')
+            self.requestBody.setParent(None)
+            self.verticalLayout_21.addWidget(self.fileLine)
+
         elif button is self.formDataButton:
             self.setContentType('multipart/form-data')
 
