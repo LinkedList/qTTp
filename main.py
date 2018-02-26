@@ -3,6 +3,7 @@
 
 import json
 import sys
+import re
 from builtins import staticmethod
 from configparser import ConfigParser
 from urllib.parse import urlparse
@@ -70,6 +71,12 @@ class Qttp(QMainWindow, Ui_MainWindow):
 
         self.buttonGroup.buttonClicked.connect(self.postBodySwitched)
         self.method.currentTextChanged.connect(self.onMethodChange)
+        self.comboBox.currentTextChanged.connect(self.rawTypeChanged)
+
+    def rawTypeChanged(self, rawType):
+        if rawType is not 'Text':
+            contentTypeToSet = re.search(r"\(([A-Za-z0-9_/]+)\)", rawType).group(1)
+            self.setContentType(contentTypeToSet)
 
     def postBodySwitched(self, button):
         if button is self.formUrlEncodedButton:
