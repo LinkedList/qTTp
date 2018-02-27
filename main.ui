@@ -63,264 +63,264 @@
        <number>2</number>
       </property>
       <widget class="QWidget" name="collectionsHistoryLayoutWidget">
-        <layout class="QVBoxLayout" name="collectionsHistoryLayout" />
+       <layout class="QVBoxLayout" name="collectionsHistoryLayout"/>
       </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <property name="sizeConstraint">
-            <enum>QLayout::SetDefaultConstraint</enum>
-           </property>
-           <item>
-            <widget class="QComboBox" name="method">
-             <item>
-              <property name="text">
-               <string>GET</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>POST</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>PUT</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>PATCH</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>DELETE</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>COPY</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>HEAD</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>OPTIONS</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="url">
-             <property name="clearButtonEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="sendButton">
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="centralLayout">
+        <item>
+         <layout class="QHBoxLayout" name="reqUrlLayout">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <item>
+           <widget class="QComboBox" name="method">
+            <item>
              <property name="text">
-              <string>Send</string>
+              <string>GET</string>
              </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="saveButton">
+            </item>
+            <item>
              <property name="text">
-              <string>Save</string>
+              <string>POST</string>
              </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QTabWidget" name="tabWidget">
-           <property name="currentIndex">
-            <number>1</number>
+            </item>
+            <item>
+             <property name="text">
+              <string>PUT</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>PATCH</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>DELETE</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>COPY</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>HEAD</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>OPTIONS</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="url">
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="sendButton">
+            <property name="text">
+             <string>Send</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="saveButton">
+            <property name="text">
+             <string>Save</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTabWidget" name="requestContentTabs">
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <widget class="QWidget" name="inputHeadersTab">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <widget class="QWidget" name="inputHeadersTab">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <attribute name="title">
-             <string>Headers</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <item>
-              <widget class="QTableWidget" name="inputHeaders">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+           <attribute name="title">
+            <string>Headers</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QTableWidget" name="inputHeaders">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="rowCount">
+               <number>0</number>
+              </property>
+              <property name="columnCount">
+               <number>2</number>
+              </property>
+              <attribute name="horizontalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="horizontalHeaderCascadingSectionResizes">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+               <bool>false</bool>
+              </attribute>
+              <column>
+               <property name="text">
+                <string>Key</string>
                </property>
-               <property name="rowCount">
-                <number>0</number>
+              </column>
+              <column>
+               <property name="text">
+                <string>Value</string>
                </property>
-               <property name="columnCount">
-                <number>2</number>
-               </property>
-               <attribute name="horizontalHeaderVisible">
-                <bool>false</bool>
-               </attribute>
-               <attribute name="horizontalHeaderCascadingSectionResizes">
-                <bool>true</bool>
-               </attribute>
-               <attribute name="horizontalHeaderStretchLastSection">
-                <bool>false</bool>
-               </attribute>
-               <column>
-                <property name="text">
-                 <string>Key</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Value</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="reqBodyTab">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <attribute name="title">
-             <string>Request body</string>
-            </attribute>
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QRadioButton" name="formDataButton">
-                 <property name="text">
-                  <string>form-data</string>
-                 </property>
-                 <attribute name="buttonGroup">
-                  <string notr="true">buttonGroup</string>
-                 </attribute>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="formUrlEncodedButton">
-                 <property name="text">
-                  <string>&amp;x-www-form-urlencoded</string>
-                 </property>
-                 <attribute name="buttonGroup">
-                  <string notr="true">buttonGroup</string>
-                 </attribute>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="rawButton">
-                 <property name="text">
-                  <string>raw</string>
-                 </property>
-                 <attribute name="buttonGroup">
-                  <string notr="true">buttonGroup</string>
-                 </attribute>
-                </widget>
-               </item>
-               <item>
-                <widget class="QRadioButton" name="binaryButton">
-                 <property name="text">
-                  <string>binar&amp;y</string>
-                 </property>
-                 <attribute name="buttonGroup">
-                  <string notr="true">buttonGroup</string>
-                 </attribute>
-                </widget>
-               </item>
-               <item>
-                <widget class="QComboBox" name="comboBox">
-                 <item>
-                  <property name="text">
-                   <string>Text</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Text (text/plain)</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>JSON (application/json)</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Javascript (application/javascript)</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>XML (application/xml)</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>XML (text/xml)</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>HTML (text/html)</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="QTextEdit" name="requestBody"/>
-             </item>
-            </layout>
-           </widget>
+              </column>
+             </widget>
+            </item>
+           </layout>
           </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="layoutWidget2">
-        <layout class="QVBoxLayout" name="responseLayout">
-         <property name="topMargin">
-          <number>5</number>
-         </property>
-         <property name="bottomMargin">
-          <number>5</number>
-         </property>
-        </layout>
-       </widget>
+          <widget class="QWidget" name="reqBodyTab">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <attribute name="title">
+            <string>Request body</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <layout class="QHBoxLayout" name="reqBodySwitcherLayout">
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QRadioButton" name="formDataButton">
+                <property name="text">
+                 <string>form-data</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup</string>
+                </attribute>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="formUrlEncodedButton">
+                <property name="text">
+                 <string>&amp;x-www-form-urlencoded</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup</string>
+                </attribute>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="rawButton">
+                <property name="text">
+                 <string>raw</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup</string>
+                </attribute>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="binaryButton">
+                <property name="text">
+                 <string>binar&amp;y</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">buttonGroup</string>
+                </attribute>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="comboBox">
+                <item>
+                 <property name="text">
+                  <string>Text</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Text (text/plain)</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>JSON (application/json)</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Javascript (application/javascript)</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>XML (application/xml)</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>XML (text/xml)</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>HTML (text/html)</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTextEdit" name="requestBody"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget2">
+       <layout class="QVBoxLayout" name="responseLayout">
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -331,7 +331,7 @@
      <x>0</x>
      <y>0</y>
      <width>1384</width>
-     <height>28</height>
+     <height>30</height>
     </rect>
    </property>
   </widget>

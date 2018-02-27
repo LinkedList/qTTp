@@ -135,12 +135,12 @@ class Qttp(QMainWindow, Ui_MainWindow):
         self.config = config
 
     def enableRequestBody(self):
-        bodyTabIndex = self.tabWidget.indexOf(self.reqBodyTab)
-        self.tabWidget.setTabEnabled(bodyTabIndex, True)
+        bodyTabIndex = self.requestContentTabs.indexOf(self.reqBodyTab)
+        self.requestContentTabs.setTabEnabled(bodyTabIndex, True)
 
     def disableRequestBody(self):
-        bodyTabIndex = self.tabWidget.indexOf(self.reqBodyTab)
-        self.tabWidget.setTabEnabled(bodyTabIndex, False)
+        bodyTabIndex = self.requestContentTabs.indexOf(self.reqBodyTab)
+        self.requestContentTabs.setTabEnabled(bodyTabIndex, False)
 
     def onMethodChange(self, httpMethod):
         if httpMethod == "GET":
