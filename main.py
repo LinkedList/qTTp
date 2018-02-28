@@ -83,8 +83,6 @@ class Qttp(QMainWindow, Ui_MainWindow):
             self.setContentType('application/x-www-form-urlencoded')
         elif button is self.binaryButton:
             self.setContentType('application/octet-stream')
-            self.requestBody.setParent(None)
-            self.verticalLayout_21.addWidget(self.fileLine)
 
         elif button is self.formDataButton:
             self.setContentType('multipart/form-data')
@@ -93,6 +91,14 @@ class Qttp(QMainWindow, Ui_MainWindow):
             self.comboBox.setEnabled(True)
         else:
             self.comboBox.setEnabled(False)
+
+        if button is self.binaryButton:
+            self.requestBody.setParent(None)
+            self.verticalLayout_21.addWidget(self.fileLine)
+        else:
+            self.fileLine.setParent(None)
+            self.verticalLayout_21.addWidget(self.requestBody)
+
 
     def setContentType(self, contentTypeToSet):
         contentType = self.inputHeaders.findItems("Content-Type", Qt.MatchExactly)
