@@ -9,3 +9,6 @@ class FileLine(QWidget, Ui_FileLine):
     def selectFile(self):
         selectedFile = QFileDialog.getOpenFileName()
         self.fileName.setText(selectedFile[0])
+    
+    def getFile(self):
+        return self.fileName.text().strip()

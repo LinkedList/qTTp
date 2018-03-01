@@ -185,7 +185,8 @@ class Qttp(QMainWindow, Ui_MainWindow):
         url = parsedUrl.netloc + parsedUrl.path
         headers = self.getInputHeaders()
         body = self.requestBody.toPlainText()
-        return Req(method, protocol, url, headers, body)
+        rawFile = self.fileLine.getFile()
+        return Req(method, protocol, url, headers, body, rawFile)
 
     def request(self):
         self.responseInfo.reset()
