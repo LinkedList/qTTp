@@ -1,3 +1,4 @@
+import requests
 from datetime import date
 
 class Req(object):
@@ -19,3 +20,16 @@ class Req(object):
 
     def isBinary(self):
         return self.file
+
+    def buildRequestAndCall(self):
+        if self.isBinary():
+            data = open(self.file, 'rb').read()
+        else:
+            data = self.body
+
+        return requests.request(
+                method=self.method,
+                url=self.buildUrl(),
+                headers=self.headers,
+                data=data)
+

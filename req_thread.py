@@ -13,16 +13,7 @@ class ReqThread(QThread):
         self.reqObject = reqObject
 
     def run(self):
-        if self.reqObject.isBinary():
-            data = open(self.reqObject.file, 'rb').read()
-        else:
-            data = self.reqObject.body
-
-        response = requests.request(
-                method=self.reqObject.method,
-                url=self.reqObject.buildUrl(),
-                headers=self.reqObject.headers,
-                data=data)
+        response = self.reqObject.buildRequestAndCall()
         self.request_done.emit(response, self.reqObject)
 
     def stop(self):
