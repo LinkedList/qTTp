@@ -5,8 +5,9 @@ from PyQt5.QtWidgets import QTabWidget, QMenu
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QIcon
 from req import Req
 
+
 class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
-        
+
     set_item = pyqtSignal(Req)
 
     folder_icon = QIcon("folder.svg")
@@ -17,7 +18,7 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
 
         self.historyList.setContextMenuPolicy(Qt.CustomContextMenu)
         self.historyList.customContextMenuRequested.connect(self.historyMenu)
-    
+
         self.historyModel = QStandardItemModel()
         self.historyList.setModel(self.historyModel)
         self.historyList.header().hide()
@@ -33,7 +34,8 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
         self.collectionsTree.expandToDepth(0)
         self.collectionsTree.doubleClicked.connect(self.emitItem)
         self.collectionsTree.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.collectionsTree.customContextMenuRequested.connect(self.collectionsMenu)
+        self.collectionsTree.customContextMenuRequested.connect(
+            self.collectionsMenu)
 
     def emitItem(self, item):
         req = item.data(Qt.UserRole)
@@ -75,7 +77,8 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
     def _saveRequest(self, item):
         maybeSelected = self.collectionsTree.selectedIndexes()
         if maybeSelected:
-            collection = self.collectionsModel.item(maybeSelected[0].row()).text()
+            collection = self.collectionsModel.item(
+                maybeSelected[0].row()).text()
         else:
             self.saveDialog = SaveToCollectionDialog(self.getCollections())
             self.saveDialog.exec_()

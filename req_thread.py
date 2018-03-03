@@ -3,6 +3,7 @@ from req import Req
 from requests import Response
 from PyQt5.QtCore import QThread, pyqtSignal
 
+
 class ReqThread(QThread):
 
     request_done = pyqtSignal(Response, Req)

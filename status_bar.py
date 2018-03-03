@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import pyqtSignal
 from status_bar_ui import Ui_StatusBar
 
+
 class StatusBar(QWidget, Ui_StatusBar):
 
     cancel_request = pyqtSignal()

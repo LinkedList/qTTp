@@ -24,6 +24,7 @@ from status_bar import StatusBar
 from ui import Ui_MainWindow
 from url_completer import UrlCompleter
 
+
 class Qttp(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(Qttp, self).__init__()
@@ -75,7 +76,8 @@ class Qttp(QMainWindow, Ui_MainWindow):
 
     def rawTypeChanged(self, rawType):
         if rawType is not 'Text':
-            contentTypeToSet = re.search(r"\(([A-Za-z0-9_/]+)\)", rawType).group(1)
+            contentTypeToSet = re.search(
+                r"\(([A-Za-z0-9_/]+)\)", rawType).group(1)
             self.setContentType(contentTypeToSet)
 
     def postBodySwitched(self, button):
@@ -99,9 +101,9 @@ class Qttp(QMainWindow, Ui_MainWindow):
             self.fileLine.setParent(None)
             self.verticalLayout_21.addWidget(self.requestBody)
 
-
     def setContentType(self, contentTypeToSet):
-        contentType = self.inputHeaders.findItems("Content-Type", Qt.MatchExactly)
+        contentType = self.inputHeaders.findItems(
+            "Content-Type", Qt.MatchExactly)
         if len(contentType) > 0:
             row = contentType[0].row()
         else:
@@ -242,7 +244,8 @@ class Qttp(QMainWindow, Ui_MainWindow):
 
     def closeEvent(self, event):
         config = self.config
-        config['splitter']['sizes'] = ",".join(map(str, self.mainSplitter.sizes()))
+        config['splitter']['sizes'] = ",".join(
+            map(str, self.mainSplitter.sizes()))
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
 

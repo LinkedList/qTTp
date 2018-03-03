@@ -2,6 +2,7 @@ import json
 from response_tabs import Ui_ResponseTabs
 from PyQt5.QtWidgets import QTabWidget
 
+
 class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
     def __init__(self):
         super(ResponseTabsWidget, self).__init__()
@@ -10,7 +11,8 @@ class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
     def setHeaders(self, headers):
         headersText = ""
         for key in sorted(headers):
-            headersText += "<b>" + key + "</b>" + ": " + headers[key] + "<br />"
+            headersText += "<b>" + key + "</b>" + \
+                ": " + headers[key] + "<br />"
         self.headersText.setHtml(headersText)
 
     def setResponseBody(self, response):
@@ -27,7 +29,8 @@ class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
             response.json()
             j = response.text
             parse = json.loads(j)
-            dump = json.dumps(obj=parse, indent=4).replace(" ", "&nbsp;").replace("\n", "<br />")
+            dump = json.dumps(obj=parse, indent=4).replace(
+                " ", "&nbsp;").replace("\n", "<br />")
             return dump
         except ValueError:
             return ""

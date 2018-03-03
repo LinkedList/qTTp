@@ -2,6 +2,7 @@ from http.client import responses
 from response_info_ui import Ui_ResponseInfo
 from PyQt5.QtWidgets import QWidget
 
+
 class ResponseInfo(QWidget, Ui_ResponseInfo):
     def __init__(self):
         super(ResponseInfo, self).__init__()
@@ -32,4 +33,4 @@ class ResponseInfo(QWidget, Ui_ResponseInfo):
         self.contentType.setText(contentType)
 
     def stylesheet(self, color):
-        return "QLabel { background-color: "+color+"; color: white; padding: 4px}"
+        return "QLabel { background-color: " + color + "; color: white; padding: 4px}"

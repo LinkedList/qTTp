@@ -1,9 +1,10 @@
 import requests
 from datetime import date
 
+
 class Req(object):
     def __init__(self, method, protocol, url, headers, body, rawFile):
-        super(Req, self).__init__()               
+        super(Req, self).__init__()
         self.method = method
         self.protocol = protocol
         self.url = url
@@ -28,8 +29,7 @@ class Req(object):
             data = self.body
 
         return requests.request(
-                method=self.method,
-                url=self.buildUrl(),
-                headers=self.headers,
-                data=data)
-
+            method=self.method,
+            url=self.buildUrl(),
+            headers=self.headers,
+            data=data)
