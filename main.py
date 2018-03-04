@@ -161,6 +161,10 @@ class Qttp(QMainWindow, Ui_MainWindow):
         for column in range(header.count()):
             header.setSectionResizeMode(column, QHeaderView.Stretch)
 
+    def forceAddHeaderRow(self):
+        count = self.inputHeaders.rowCount()
+        self.inputHeaders.setRowCount(count + 1)
+
     def addHeaderRow(self):
         count = self.inputHeaders.rowCount()
         item = self.inputHeaders.item(count - 1, 0)
@@ -235,12 +239,15 @@ class Qttp(QMainWindow, Ui_MainWindow):
 
     def headersMenu(self, position):
         menu = QMenu()
+        newAction = menu.addAction("New")
         deleteAction = menu.addAction("Delete")
         action = menu.exec_(self.inputHeaders.mapToGlobal(position))
         if action == deleteAction:
             item = self.inputHeaders.itemAt(position)
             if item:
                 self.removeHeaderRow(item)
+        elif action == newAction:
+            self.forceAddHeaderRow()
 
     def closeEvent(self, event):
         config = self.config
