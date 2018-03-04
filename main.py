@@ -23,6 +23,7 @@ from response_info import ResponseInfo
 from status_bar import StatusBar
 from ui import Ui_MainWindow
 from url_completer import UrlCompleter
+from key_value_editor import KeyValueEditor
 
 
 class Qttp(QMainWindow, Ui_MainWindow):
@@ -73,6 +74,7 @@ class Qttp(QMainWindow, Ui_MainWindow):
         self.buttonGroup.buttonClicked.connect(self.postBodySwitched)
         self.method.currentTextChanged.connect(self.onMethodChange)
         self.comboBox.currentTextChanged.connect(self.rawTypeChanged)
+        self.currentBodyEditor = self.requestBody
 
     def rawTypeChanged(self, rawType):
         if rawType is not 'Text':
@@ -95,11 +97,19 @@ class Qttp(QMainWindow, Ui_MainWindow):
             self.comboBox.setEnabled(False)
 
         if button is self.binaryButton:
-            self.requestBody.setParent(None)
-            self.verticalLayout_21.addWidget(self.fileLine)
+            self.resetBodyEditor()
+            self.currentBodyEditor = self.fileLine
+        elif button is self.formDataButton or button is self.formUrlEncodedButton:
+            self.resetBodyEditor()
+            self.currentBodyEditor = KeyValueEditor()
         else:
-            self.fileLine.setParent(None)
-            self.verticalLayout_21.addWidget(self.requestBody)
+            self.resetBodyEditor()
+            self.currentBodyEditor = self.requestBody
+
+        self.verticalLayout_21.addWidget(self.currentBodyEditor)
+
+    def resetBodyEditor(self):
+        self.currentBodyEditor.setParent(None)
 
     def setContentType(self, contentTypeToSet):
         contentType = self.inputHeaders.findItems(
