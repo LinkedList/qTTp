@@ -34,3 +34,16 @@ class KeyValueEditor(QWidget, Ui_keyValueEditor):
 
         return rowCount
 
+    def getData(self):
+        data = {}
+        for row in range(0, self.table.rowCount()):
+            checked = self.table.item(row, 0)
+            key = self.table.item(row, 1)
+            value = self.table.item(row, 2)
+            if key != None and key.text() != "" and value != None and value.text() != "":
+                data[key.text()] = {}
+                data[key.text()]['value'] = value.text()
+                data[key.text()]['active'] = checked.checkState() == Qt.Checked
+
+        return data
+

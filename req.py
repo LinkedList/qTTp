@@ -23,13 +23,23 @@ class Req(object):
         return self.file
 
     def buildRequestAndCall(self):
-        if self.isBinary():
-            data = open(self.file, 'rb').read()
-        else:
-            data = self.body
+        data = self.buildDataObj()
 
         return requests.request(
             method=self.method,
             url=self.buildUrl(),
             headers=self.headers,
             data=data)
+
+    def buildDataObj(self):
+        if self.isBinary():
+            data = open(self.file, 'rb').read()
+        elif type(self.body) == dict:
+            activeData = {k: v for k, v in self.body.items() if v['active'] == True}
+            data = {}
+            for k, v in activeData.items():
+                data[k] = v['value']
+        else:
+            data = self.body
+        return data
+

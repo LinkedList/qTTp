@@ -200,7 +200,11 @@ class Qttp(QMainWindow, Ui_MainWindow):
         protocol = parsedUrl.scheme or "https"
         url = parsedUrl.netloc + parsedUrl.path
         headers = self.getInputHeaders()
-        body = self.requestBody.toPlainText()
+        if type(self.currentBodyEditor) == KeyValueEditor:
+            body = self.currentBodyEditor.getData()
+        else:
+            body = self.requestBody.toPlainText()
+
         rawFile = self.fileLine.getFile()
         return Req(method, protocol, url, headers, body, rawFile)
 
