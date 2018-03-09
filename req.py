@@ -1,5 +1,7 @@
+from pprint import pprint
 import requests
 from datetime import date
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 
 class Req(object):
@@ -13,6 +15,9 @@ class Req(object):
         self.body = body
         self.file = rawFile
 
+    def isFormData(self):
+        return self.headers['Content-Type'] == "multipart/form-data"
+
     def buildUrl(self):
         return self.protocol + "://" + self.url
 
@@ -24,12 +29,20 @@ class Req(object):
 
     def buildRequestAndCall(self):
         data = self.buildDataObj()
+        if self.isFormData():
+            data = self.dataToMultipart(data)
+            self.headers['Content-Type'] = data.content_type
 
+        pprint(vars(self))
+        pprint(data)
         return requests.request(
             method=self.method,
             url=self.buildUrl(),
             headers=self.headers,
             data=data)
+
+    def dataToMultipart(self, data):
+        return MultipartEncoder(fields = data)
 
     def buildDataObj(self):
         if self.isBinary():
@@ -42,4 +55,3 @@ class Req(object):
         else:
             data = self.body
         return data
-
