@@ -17,13 +17,18 @@ class KeyValueEditor(QWidget, Ui_keyValueEditor):
         self.table.setContextMenuPolicy(Qt.CustomContextMenu)
         self.table.customContextMenuRequested.connect(self.menu)
 
+    def rowEmpty(self, row):
+        key = self.table.item(row, 1)
+        value = self.table.item(row, 2)
+        return key == None or value == None or key.text() == "" or value.text() == ""
+
     def menu(self, position):
         menu = QMenu()
-        deleteAction = menu.addAction("Delete")
-        action = menu.exec_(self.table.mapToGlobal(position))
-        if action == deleteAction:
-            item = self.table.itemAt(position)
-            if item:
+        item = self.table.itemAt(position)
+        if item:
+            deleteAction = menu.addAction("Delete")
+            action = menu.exec_(self.table.mapToGlobal(position))
+            if action == deleteAction:
                 self.removeRow(item)
 
     def removeRow(self, item):
