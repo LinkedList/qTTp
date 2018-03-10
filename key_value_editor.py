@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QTableWidgetItem, QMenu
 from PyQt5.QtCore import pyqtSignal, Qt
 from key_value_editor_ui import Ui_keyValueEditor
 
@@ -13,6 +13,22 @@ class KeyValueEditor(QWidget, Ui_keyValueEditor):
         self.table.setColumnWidth(0, 28)
         self.table.setItem(0, 0, self.createCheckBoxItem())
         self.table.cellChanged.connect(self.maybeAddRow)
+
+        self.table.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.table.customContextMenuRequested.connect(self.menu)
+
+    def menu(self, position):
+        menu = QMenu()
+        deleteAction = menu.addAction("Delete")
+        action = menu.exec_(self.table.mapToGlobal(position))
+        if action == deleteAction:
+            item = self.table.itemAt(position)
+            if item:
+                self.removeRow(item)
+
+    def removeRow(self, item):
+        self.table.removeRow(item.row())
+        self.maybeAddRow()
 
     def createCheckBoxItem(self):
         checkbox = QTableWidgetItem(True)
