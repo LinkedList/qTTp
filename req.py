@@ -16,7 +16,7 @@ class Req(object):
         self.file = rawFile
 
     def isFormData(self):
-        return self.headers['Content-Type'] == "multipart/form-data"
+        return 'Content-Type' in self.headers and self.headers['Content-Type'] == "multipart/form-data"
 
     def buildUrl(self):
         return self.protocol + "://" + self.url
