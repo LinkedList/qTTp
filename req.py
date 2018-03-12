@@ -1,11 +1,12 @@
 from pprint import pprint
+from jinja2 import Template
 import requests
 from datetime import date
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 
 class Req(object):
-    def __init__(self, method, protocol, url, headers, body, rawFile):
+    def __init__(self, method, protocol, url, headers, body, rawFile, context):
         super(Req, self).__init__()
         self.method = method
         self.protocol = protocol
@@ -14,12 +15,14 @@ class Req(object):
         self.date = date.today()
         self.body = body
         self.file = rawFile
+        self.context = context
 
     def isFormData(self):
         return 'Content-Type' in self.headers and self.headers['Content-Type'] == "multipart/form-data"
 
     def buildUrl(self):
-        return self.protocol + "://" + self.url
+        template = Template(self.protocol + "://" + self.url)
+        return template.render(self.context)
 
     def buildTextRepresentation(self):
         return self.method + " " + self.url

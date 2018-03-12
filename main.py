@@ -206,7 +206,11 @@ class Qttp(QMainWindow, Ui_MainWindow):
             body = self.requestBody.toPlainText()
 
         rawFile = self.fileLine.getFile()
-        return Req(method, protocol, url, headers, body, rawFile)
+        return Req(method, protocol, url, headers, body, rawFile, self.getContext())
+
+    def getContext(self):
+        #Temporary stuff
+        return {"url": "api.github.com"}
 
     def request(self):
         self.responseInfo.reset()
