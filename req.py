@@ -49,7 +49,9 @@ class Req(object):
 
     def buildDataObj(self):
         if self.isBinary():
-            data = open(self.file, 'rb').read()
+            fileTemplate = Template(self.file)
+            renderedFileTemplate = fileTemplate.render(self.context)
+            data = open(renderedFileTemplate, 'rb').read()
         elif type(self.body) == dict:
             activeData = {k: v for k, v in self.body.items() if v['active'] == True}
             data = {}

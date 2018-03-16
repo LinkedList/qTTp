@@ -210,7 +210,10 @@ class Qttp(QMainWindow, Ui_MainWindow):
 
     def getContext(self):
         #Temporary stuff
-        return {"url": "api.github.com"}
+        return {
+                "url": "api.github.com",
+                "file": "/home/martin/pseudo.txt"
+                }
 
     def request(self):
         self.responseInfo.reset()
