@@ -21,8 +21,7 @@ class Req(object):
         return 'Content-Type' in self.headers and self.headers['Content-Type'] == "multipart/form-data"
 
     def buildUrl(self):
-        template = Template(self.protocol + "://" + self.url)
-        return template.render(self.context)
+        return self.transform(self.protocol + "://" + self.url)
 
     def buildTextRepresentation(self):
         return self.method + " " + self.url
@@ -49,9 +48,7 @@ class Req(object):
 
     def buildDataObj(self):
         if self.isBinary():
-            fileTemplate = Template(self.file)
-            renderedFileTemplate = fileTemplate.render(self.context)
-            data = open(renderedFileTemplate, 'rb').read()
+            data = open(self.transform(self.file), 'rb').read()
         elif type(self.body) == dict:
             activeData = {k: v for k, v in self.body.items() if v['active'] == True}
             data = {}
@@ -60,3 +57,8 @@ class Req(object):
         else:
             data = self.body
         return data
+
+    def transform(self, what):
+        template = Template(what)
+        rendered = template.render(self.context)
+        return rendered
