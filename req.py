@@ -55,7 +55,7 @@ class Req(object):
             for k, v in activeData.items():
                 data[k] = v['value']
         else:
-            data = self.body
+            data = self.transform(self.body)
         return data
 
     def transform(self, what):
