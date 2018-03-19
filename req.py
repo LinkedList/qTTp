@@ -53,7 +53,7 @@ class Req(object):
             activeData = {k: v for k, v in self.body.items() if v['active'] == True}
             data = {}
             for k, v in activeData.items():
-                data[k] = v['value']
+                data[self.transform(k)] = self.transform(v['value'])
         else:
             data = self.transform(self.body)
         return data
