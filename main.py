@@ -13,6 +13,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (
     QTabWidget, QApplication, QMainWindow, QMenu, QHeaderView, QTableWidgetItem, QFileDialog)
 
+from environment import EnvironmentSwitcher
 from file_line import FileLine
 from collections_history_tabs import CollectionsHistoryTabs
 from headers_completer import HeadersCompleter
@@ -33,6 +34,8 @@ class Qttp(QMainWindow, Ui_MainWindow):
 
         self.prepareConfig()
         self.fileLine = FileLine()
+
+        self.envrionmentSwitcher = EnvironmentSwitcher()
 
         self.statusBar = StatusBar()
         self.statusbar.addPermanentWidget(self.statusBar)
@@ -66,6 +69,9 @@ class Qttp(QMainWindow, Ui_MainWindow):
         self.collectionsHistoryTabs = CollectionsHistoryTabs()
         self.collectionsHistoryTabs.set_item.connect(self.setFromHistory)
         self.collectionsHistoryLayout.addWidget(self.collectionsHistoryTabs)
+
+        self.envrionmentSwitcher = EnvironmentSwitcher()
+        self.collectionsHistoryLayout.addWidget(self.envrionmentSwitcher)
 
         self.mainSplitter.setSizes(self.getMainSplitterSizes())
 
