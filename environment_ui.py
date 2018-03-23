@@ -20,8 +20,8 @@ class Ui_environmentForm(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.environmentCombo.sizePolicy().hasHeightForWidth())
         self.environmentCombo.setSizePolicy(sizePolicy)
+        self.environmentCombo.setEditable(True)
         self.environmentCombo.setObjectName("environmentCombo")
-        self.environmentCombo.addItem("")
         self.horizontalLayout.addWidget(self.environmentCombo)
         self.environmentEdit = QtWidgets.QPushButton(environmentForm)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
@@ -38,6 +38,5 @@ class Ui_environmentForm(object):
     def retranslateUi(self, environmentForm):
         _translate = QtCore.QCoreApplication.translate
         environmentForm.setWindowTitle(_translate("environmentForm", "Form"))
-        self.environmentCombo.setItemText(0, _translate("environmentForm", "New Environment"))
         self.environmentEdit.setText(_translate("environmentForm", "Edit Env."))
 
