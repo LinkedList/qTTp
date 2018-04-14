@@ -35,16 +35,24 @@ class Req(object):
             data = self.dataToMultipart(data)
             self.headers['Content-Type'] = data.content_type
 
+        headers = self.buildHeaders(self.headers)
+
         pprint(vars(self))
         pprint(data)
         return requests.request(
             method=self.method,
             url=self.buildUrl(),
-            headers=self.headers,
+            headers=headers,
             data=data)
 
     def dataToMultipart(self, data):
         return MultipartEncoder(fields = data)
+
+    def buildHeaders(self, headers):
+        data = {}
+        for k, v in headers.items():
+            data[self.transform(k)] = self.transform(v)
+        return data
 
     def buildDataObj(self):
         if self.isBinary():
