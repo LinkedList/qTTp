@@ -27,6 +27,7 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
 
         self.collectionsModel = QStandardItemModel()
         default = QStandardItem("Default")
+        default.setEditable(False)
         default.setIcon(self.folder_icon)
         self.collectionsModel.appendRow(default)
         self.collectionsTree.setModel(self.collectionsModel)
@@ -90,11 +91,13 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
         parents = self.historyModel.findItems(str(reqObject.date))
         if not parents:
             parent = QStandardItem(str(reqObject.date))
+            parent.setEditable(False)
             self.historyModel.appendRow(parent)
         else:
             parent = parents.pop()
 
         historyItem = QStandardItem(reqObject.buildTextRepresentation())
+        historyItem.setEditable(False)
         historyItem.setData(reqObject, Qt.UserRole)
         parent.insertRow(0, historyItem)
 
@@ -102,11 +105,13 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
         items = self.collectionsModel.findItems(collection)
         if not items:
             parent = QStandardItem(collection)
+            parent.setEditable(False)
             parent.setIcon(self.folder_icon)
             self.collectionsModel.appendRow(parent)
         else:
             parent = items.pop(0)
 
         newItem = QStandardItem(item.method + " " + item.url)
+        newItem.setEditable(False)
         newItem.setData(item, Qt.UserRole)
         parent.appendRow(newItem)
