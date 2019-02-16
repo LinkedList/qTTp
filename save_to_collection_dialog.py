@@ -1,5 +1,5 @@
 from save_request_dialog_ui import Ui_Dialog
-from PyQt5.QtWidgets import QDialog
+from PySide2.QtWidgets import QDialog
 
 
 class SaveToCollectionDialog(Ui_Dialog, QDialog):

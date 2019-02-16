@@ -1,11 +1,11 @@
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtCore import pyqtSignal
+from PySide2.QtWidgets import QWidget
+from PySide2.QtCore import Signal
 from status_bar_ui import Ui_StatusBar
 
 
 class StatusBar(QWidget, Ui_StatusBar):
 
-    cancel_request = pyqtSignal()
+    cancel_request = Signal()
 
     def __init__(self):
         super(StatusBar, self).__init__()

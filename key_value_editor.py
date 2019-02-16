@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QTableWidgetItem, QMenu
-from PyQt5.QtCore import pyqtSignal, Qt
+from PySide2.QtWidgets import QWidget, QTableWidgetItem, QMenu
+from PySide2.QtCore import Signal, Qt
 from key_value_editor_ui import Ui_keyValueEditor
 
 

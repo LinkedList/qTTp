@@ -1,6 +1,6 @@
 import json
 from response_tabs import Ui_ResponseTabs
-from PyQt5.QtWidgets import QTabWidget
+from PySide2.QtWidgets import QTabWidget
 
 
 class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):

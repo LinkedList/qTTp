@@ -1,13 +1,13 @@
 import requests
 from req import Req
 from requests import Response
-from PyQt5.QtCore import QThread, pyqtSignal
+from PySide2.QtCore import QThread, Signal
 
 
 class ReqThread(QThread):
 
-    request_done = pyqtSignal(Response, Req)
-    request_stopped = pyqtSignal()
+    request_done = Signal(Response, Req)
+    request_stopped = Signal()
 
     def __init__(self, reqObject):
         QThread.__init__(self)

@@ -1,5 +1,5 @@
 from environment_ui import Ui_environmentForm
-from PyQt5.QtWidgets import QWidget
+from PySide2.QtWidgets import QWidget
 
 
 class EnvironmentSwitcher(QWidget, Ui_environmentForm):

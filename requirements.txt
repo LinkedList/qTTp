@@ -1,4 +1,4 @@
 requests_toolbelt
 configparser
-PyQt5
+PySide2
 jinja2

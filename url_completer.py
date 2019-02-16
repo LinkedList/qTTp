@@ -1,6 +1,6 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QStyledItemDelegate, QLineEdit, QCompleter
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PySide2.QtCore import Qt
+from PySide2.QtWidgets import QStyledItemDelegate, QLineEdit, QCompleter
+from PySide2.QtGui import QStandardItemModel, QStandardItem
 
 
 class UrlCompleter(QCompleter):

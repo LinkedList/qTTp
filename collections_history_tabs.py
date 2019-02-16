@@ -1,14 +1,14 @@
 from collections_history_ui import Ui_CollectionsHistoryTabs
 from save_to_collection_dialog import SaveToCollectionDialog
-from PyQt5.QtCore import pyqtSignal, Qt
-from PyQt5.QtWidgets import QTabWidget, QMenu
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QIcon
+from PySide2.QtCore import Signal, Qt
+from PySide2.QtWidgets import QTabWidget, QMenu
+from PySide2.QtGui import QStandardItemModel, QStandardItem, QIcon
 from req import Req
 
 
 class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
 
-    set_item = pyqtSignal(Req)
+    set_item = Signal(Req)
 
     folder_icon = QIcon("folder.svg")
 

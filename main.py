@@ -7,9 +7,9 @@ import re
 from configparser import ConfigParser
 from urllib.parse import urlparse
 
-from PyQt5 import QtCore
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (
+from PySide2 import QtCore
+from PySide2.QtCore import Qt
+from PySide2.QtWidgets import (
     QTabWidget, QApplication, QMainWindow, QMenu, QHeaderView, QTableWidgetItem, QFileDialog)
 
 from environment import EnvironmentSwitcher
@@ -72,7 +72,9 @@ class Qttp(QMainWindow, Ui_MainWindow):
         self.envrionmentSwitcher = EnvironmentSwitcher()
         self.collectionsHistoryLayout.addWidget(self.envrionmentSwitcher)
 
-        self.mainSplitter.setSizes(self.getMainSplitterSizes())
+        splitterSizes = self.getMainSplitterSizes()
+        print(type(splitterSizes))
+        self.mainSplitter.setSizes(splitterSizes)
 
         self.disableRequestBody()
 
@@ -140,7 +142,7 @@ class Qttp(QMainWindow, Ui_MainWindow):
         config.read('config.ini')
         sizes = config['splitter']['sizes']
         if sizes:
-            return map(int, sizes.split(","))
+            return [int(s) for s in sizes.split(',')]
 
         return []
 

@@ -1,6 +1,6 @@
 from http.client import responses
 from response_info_ui import Ui_ResponseInfo
-from PyQt5.QtWidgets import QWidget
+from PySide2.QtWidgets import QWidget
 
 
 class ResponseInfo(QWidget, Ui_ResponseInfo):

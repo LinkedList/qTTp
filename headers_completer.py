@@ -1,5 +1,5 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QStyledItemDelegate, QLineEdit, QCompleter
+from PySide2.QtCore import Qt
+from PySide2.QtWidgets import QStyledItemDelegate, QLineEdit, QCompleter
 
 
 class HeadersCompleter(QStyledItemDelegate):

@@ -1,5 +1,5 @@
 from file_line_ui import Ui_FileLine
-from PyQt5.QtWidgets import QWidget, QFileDialog
+from PySide2.QtWidgets import QWidget, QFileDialog
 
 
 class FileLine(QWidget, Ui_FileLine):
