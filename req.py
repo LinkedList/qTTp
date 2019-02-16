@@ -2,7 +2,7 @@ from pprint import pprint
 from jinja2 import Template
 import requests
 from datetime import date
-from requests_toolbelt.multipart.encoder import MultipartEncoder
+from requests_toolbelt import MultipartEncoder
 
 
 class Req(object):

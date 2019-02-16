@@ -4,7 +4,6 @@
 import json
 import sys
 import re
-from builtins import staticmethod
 from configparser import ConfigParser
 from urllib.parse import urlparse
 

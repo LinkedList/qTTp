@@ -1,0 +1,4 @@
+requests_toolbelt
+configparser
+PyQt5
+jinja2
