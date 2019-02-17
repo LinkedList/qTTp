@@ -1,4 +1,4 @@
-from collections_history_ui import Ui_CollectionsHistoryTabs
+from ui.collections_history_ui import Ui_CollectionsHistoryTabs
 from save_to_collection_dialog import SaveToCollectionDialog
 from PySide2.QtCore import Signal, Qt
 from PySide2.QtWidgets import QTabWidget, QMenu
@@ -96,10 +96,11 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
         else:
             parent = parents.pop()
 
-        historyItem = QStandardItem(reqObject.buildTextRepresentation())
+        historyItem = QStandardItem()
+        historyItem.setText(reqObject.buildTextRepresentation())
         historyItem.setEditable(False)
         historyItem.setData(reqObject, Qt.UserRole)
-        parent.insertRow(0, historyItem)
+        parent.insertRow(0, [historyItem]) #seems like a hack inserting list here, possilby report
 
     def addCollectionItem(self, collection, item):
         items = self.collectionsModel.findItems(collection)
@@ -111,7 +112,8 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
         else:
             parent = items.pop(0)
 
-        newItem = QStandardItem(item.method + " " + item.url)
+        newItem = QStandardItem()
+        newItem.setText(item.method + " " + item.url)
         newItem.setEditable(False)
         newItem.setData(item, Qt.UserRole)
         parent.appendRow(newItem)

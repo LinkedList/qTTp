@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'save_request_dialog.ui'
+# Form implementation generated from reading ui file 'save_request_dialog.ui',
+# licensing of 'save_request_dialog.ui' applies.
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created: Sun Feb 17 10:16:47 2019
+#      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -28,12 +30,11 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept)
-        self.buttonBox.rejected.connect(Dialog.reject)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), Dialog.accept)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("rejected()"), Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
-        _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Save to collection"))
-        self.saveRequestDialogLabel.setText(_translate("Dialog", "Save request"))
+        Dialog.setWindowTitle(QtWidgets.QApplication.translate("Dialog", "Save to collection", None, -1))
+        self.saveRequestDialogLabel.setText(QtWidgets.QApplication.translate("Dialog", "Save request", None, -1))
 

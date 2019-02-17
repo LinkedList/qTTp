@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'fileLine.ui'
+# Form implementation generated from reading ui file 'fileLine.ui',
+# licensing of 'fileLine.ui' applies.
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created: Sun Feb 17 10:15:32 2019
+#      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -25,7 +27,6 @@ class Ui_FileLine(object):
         QtCore.QMetaObject.connectSlotsByName(FileLine)
 
     def retranslateUi(self, FileLine):
-        _translate = QtCore.QCoreApplication.translate
-        FileLine.setWindowTitle(_translate("FileLine", "Form"))
-        self.browseButton.setText(_translate("FileLine", "Browse"))
+        FileLine.setWindowTitle(QtWidgets.QApplication.translate("FileLine", "Form", None, -1))
+        self.browseButton.setText(QtWidgets.QApplication.translate("FileLine", "Browse", None, -1))
 

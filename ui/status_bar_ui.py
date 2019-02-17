@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'status_bar.ui'
+# Form implementation generated from reading ui file 'status_bar.ui',
+# licensing of 'status_bar.ui' applies.
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created: Sun Feb 17 10:17:03 2019
+#      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -18,8 +20,8 @@ class Ui_StatusBar(object):
         sizePolicy.setHeightForWidth(StatusBar.sizePolicy().hasHeightForWidth())
         StatusBar.setSizePolicy(sizePolicy)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(StatusBar)
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setSpacing(0)
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.requestProgress = QtWidgets.QProgressBar(StatusBar)
         self.requestProgress.setStyleSheet("")
@@ -38,7 +40,6 @@ class Ui_StatusBar(object):
         QtCore.QMetaObject.connectSlotsByName(StatusBar)
 
     def retranslateUi(self, StatusBar):
-        _translate = QtCore.QCoreApplication.translate
-        StatusBar.setWindowTitle(_translate("StatusBar", "Form"))
-        self.cancelButton.setText(_translate("StatusBar", "Cancel"))
+        StatusBar.setWindowTitle(QtWidgets.QApplication.translate("StatusBar", "Form", None, -1))
+        self.cancelButton.setText(QtWidgets.QApplication.translate("StatusBar", "Cancel", None, -1))
 

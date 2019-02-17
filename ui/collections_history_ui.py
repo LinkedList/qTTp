@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'collections_history.ui'
+# Form implementation generated from reading ui file 'collections_history.ui',
+# licensing of 'collections_history.ui' applies.
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created: Sun Feb 17 10:14:38 2019
+#      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -19,7 +21,6 @@ class Ui_CollectionsHistoryTabs(object):
         self.collectionsTab.setSizePolicy(sizePolicy)
         self.collectionsTab.setObjectName("collectionsTab")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.collectionsTab)
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.collectionsTree = QtWidgets.QTreeView(self.collectionsTab)
         self.collectionsTree.setObjectName("collectionsTree")
@@ -33,7 +34,6 @@ class Ui_CollectionsHistoryTabs(object):
         self.historyTab.setSizePolicy(sizePolicy)
         self.historyTab.setObjectName("historyTab")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.historyTab)
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.historyList = QtWidgets.QTreeView(self.historyTab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -50,7 +50,6 @@ class Ui_CollectionsHistoryTabs(object):
         QtCore.QMetaObject.connectSlotsByName(tabWidget)
 
     def retranslateUi(self, tabWidget):
-        _translate = QtCore.QCoreApplication.translate
-        tabWidget.setTabText(tabWidget.indexOf(self.collectionsTab), _translate("CollectionsHistoryTabs", "Collections"))
-        tabWidget.setTabText(tabWidget.indexOf(self.historyTab), _translate("CollectionsHistoryTabs", "History"))
+        tabWidget.setTabText(tabWidget.indexOf(self.collectionsTab), QtWidgets.QApplication.translate("CollectionsHistoryTabs", "Collections", None, -1))
+        tabWidget.setTabText(tabWidget.indexOf(self.historyTab), QtWidgets.QApplication.translate("CollectionsHistoryTabs", "History", None, -1))
 

@@ -1,7 +1,6 @@
 from PySide2.QtWidgets import QWidget, QTableWidgetItem, QMenu
 from PySide2.QtCore import Signal, Qt
-from key_value_editor_ui import Ui_keyValueEditor
-
+from ui.key_value_editor_ui import Ui_keyValueEditor
 
 class KeyValueEditor(QWidget, Ui_keyValueEditor):
 
@@ -50,7 +49,7 @@ class KeyValueEditor(QWidget, Ui_keyValueEditor):
         rowCount = 0
         for row in range(0, self.table.rowCount()):
             item = self.table.item(row, 1)
-            if item != None and item.text() != "":
+            if item is not None and item.text() != "":
                 rowCount += 1
 
         return rowCount
@@ -61,7 +60,7 @@ class KeyValueEditor(QWidget, Ui_keyValueEditor):
             checked = self.table.item(row, 0)
             key = self.table.item(row, 1)
             value = self.table.item(row, 2)
-            if key != None and key.text() != "" and value != None and value.text() != "":
+            if key is not None and key.text() != "" and value is not None and value.text() != "":
                 data[key.text()] = {}
                 data[key.text()]['value'] = value.text()
                 data[key.text()]['active'] = checked.checkState() == Qt.Checked

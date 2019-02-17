@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'key_value_editor.ui'
+# Form implementation generated from reading ui file 'key_value_editor.ui',
+# licensing of 'key_value_editor.ui' applies.
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created: Sun Feb 17 10:15:49 2019
+#      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -19,6 +21,8 @@ class Ui_keyValueEditor(object):
         self.keyValueEditorTable.setRowCount(1)
         self.keyValueEditorTable.setColumnCount(3)
         self.keyValueEditorTable.setObjectName("keyValueEditorTable")
+        self.keyValueEditorTable.setColumnCount(3)
+        self.keyValueEditorTable.setRowCount(1)
         self.keyValueEditorTable.horizontalHeader().setVisible(False)
         self.keyValueEditorTable.horizontalHeader().setCascadingSectionResizes(False)
         self.keyValueEditorTable.horizontalHeader().setDefaultSectionSize(100)
@@ -30,6 +34,5 @@ class Ui_keyValueEditor(object):
         QtCore.QMetaObject.connectSlotsByName(keyValueEditor)
 
     def retranslateUi(self, keyValueEditor):
-        _translate = QtCore.QCoreApplication.translate
-        keyValueEditor.setWindowTitle(_translate("keyValueEditor", "KeyValueEditor"))
+        keyValueEditor.setWindowTitle(QtWidgets.QApplication.translate("keyValueEditor", "KeyValueEditor", None, -1))
 

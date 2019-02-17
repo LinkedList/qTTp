@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'main.ui'
+# Form implementation generated from reading ui file 'main.ui',
+# licensing of 'main.ui' applies.
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created: Sun Feb 17 10:16:01 2019
+#      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -84,7 +86,6 @@ class Ui_MainWindow(object):
         self.inputHeadersTab.setSizePolicy(sizePolicy)
         self.inputHeadersTab.setObjectName("inputHeadersTab")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.inputHeadersTab)
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.inputHeaders = QtWidgets.QTableWidget(self.inputHeadersTab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
@@ -95,6 +96,8 @@ class Ui_MainWindow(object):
         self.inputHeaders.setRowCount(0)
         self.inputHeaders.setColumnCount(2)
         self.inputHeaders.setObjectName("inputHeaders")
+        self.inputHeaders.setColumnCount(2)
+        self.inputHeaders.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.inputHeaders.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -112,7 +115,6 @@ class Ui_MainWindow(object):
         self.reqBodyTab.setSizePolicy(sizePolicy)
         self.reqBodyTab.setObjectName("reqBodyTab")
         self.verticalLayout_21 = QtWidgets.QVBoxLayout(self.reqBodyTab)
-        self.verticalLayout_21.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_21.setObjectName("verticalLayout_21")
         self.reqBodySwitcherLayout = QtWidgets.QHBoxLayout()
         self.reqBodySwitcherLayout.setContentsMargins(-1, 0, -1, -1)
@@ -156,7 +158,7 @@ class Ui_MainWindow(object):
         self.layoutWidget2 = QtWidgets.QWidget(self.mainSplitter)
         self.layoutWidget2.setObjectName("layoutWidget2")
         self.responseLayout = QtWidgets.QVBoxLayout(self.layoutWidget2)
-        self.responseLayout.setContentsMargins(0, 5, 0, 5)
+        self.responseLayout.setContentsMargins(-1, 5, -1, 5)
         self.responseLayout.setObjectName("responseLayout")
         self.verticalLayout_3.addWidget(self.mainSplitter)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -178,33 +180,30 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "qTTp"))
-        self.method.setItemText(0, _translate("MainWindow", "GET"))
-        self.method.setItemText(1, _translate("MainWindow", "POST"))
-        self.method.setItemText(2, _translate("MainWindow", "PUT"))
-        self.method.setItemText(3, _translate("MainWindow", "PATCH"))
-        self.method.setItemText(4, _translate("MainWindow", "DELETE"))
-        self.method.setItemText(5, _translate("MainWindow", "COPY"))
-        self.method.setItemText(6, _translate("MainWindow", "HEAD"))
-        self.method.setItemText(7, _translate("MainWindow", "OPTIONS"))
-        self.sendButton.setText(_translate("MainWindow", "Send"))
-        self.saveButton.setText(_translate("MainWindow", "Save"))
-        item = self.inputHeaders.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "Key"))
-        item = self.inputHeaders.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Value"))
-        self.requestContentTabs.setTabText(self.requestContentTabs.indexOf(self.inputHeadersTab), _translate("MainWindow", "Headers"))
-        self.formDataButton.setText(_translate("MainWindow", "form-data"))
-        self.formUrlEncodedButton.setText(_translate("MainWindow", "&x-www-form-urlencoded"))
-        self.rawButton.setText(_translate("MainWindow", "raw"))
-        self.binaryButton.setText(_translate("MainWindow", "binar&y"))
-        self.comboBox.setItemText(0, _translate("MainWindow", "Text"))
-        self.comboBox.setItemText(1, _translate("MainWindow", "Text (text/plain)"))
-        self.comboBox.setItemText(2, _translate("MainWindow", "JSON (application/json)"))
-        self.comboBox.setItemText(3, _translate("MainWindow", "Javascript (application/javascript)"))
-        self.comboBox.setItemText(4, _translate("MainWindow", "XML (application/xml)"))
-        self.comboBox.setItemText(5, _translate("MainWindow", "XML (text/xml)"))
-        self.comboBox.setItemText(6, _translate("MainWindow", "HTML (text/html)"))
-        self.requestContentTabs.setTabText(self.requestContentTabs.indexOf(self.reqBodyTab), _translate("MainWindow", "Request body"))
+        MainWindow.setWindowTitle(QtWidgets.QApplication.translate("MainWindow", "qTTp", None, -1))
+        self.method.setItemText(0, QtWidgets.QApplication.translate("MainWindow", "GET", None, -1))
+        self.method.setItemText(1, QtWidgets.QApplication.translate("MainWindow", "POST", None, -1))
+        self.method.setItemText(2, QtWidgets.QApplication.translate("MainWindow", "PUT", None, -1))
+        self.method.setItemText(3, QtWidgets.QApplication.translate("MainWindow", "PATCH", None, -1))
+        self.method.setItemText(4, QtWidgets.QApplication.translate("MainWindow", "DELETE", None, -1))
+        self.method.setItemText(5, QtWidgets.QApplication.translate("MainWindow", "COPY", None, -1))
+        self.method.setItemText(6, QtWidgets.QApplication.translate("MainWindow", "HEAD", None, -1))
+        self.method.setItemText(7, QtWidgets.QApplication.translate("MainWindow", "OPTIONS", None, -1))
+        self.sendButton.setText(QtWidgets.QApplication.translate("MainWindow", "Send", None, -1))
+        self.saveButton.setText(QtWidgets.QApplication.translate("MainWindow", "Save", None, -1))
+        self.inputHeaders.horizontalHeaderItem(0).setText(QtWidgets.QApplication.translate("MainWindow", "Key", None, -1))
+        self.inputHeaders.horizontalHeaderItem(1).setText(QtWidgets.QApplication.translate("MainWindow", "Value", None, -1))
+        self.requestContentTabs.setTabText(self.requestContentTabs.indexOf(self.inputHeadersTab), QtWidgets.QApplication.translate("MainWindow", "Headers", None, -1))
+        self.formDataButton.setText(QtWidgets.QApplication.translate("MainWindow", "form-data", None, -1))
+        self.formUrlEncodedButton.setText(QtWidgets.QApplication.translate("MainWindow", "&x-www-form-urlencoded", None, -1))
+        self.rawButton.setText(QtWidgets.QApplication.translate("MainWindow", "raw", None, -1))
+        self.binaryButton.setText(QtWidgets.QApplication.translate("MainWindow", "binar&y", None, -1))
+        self.comboBox.setItemText(0, QtWidgets.QApplication.translate("MainWindow", "Text", None, -1))
+        self.comboBox.setItemText(1, QtWidgets.QApplication.translate("MainWindow", "Text (text/plain)", None, -1))
+        self.comboBox.setItemText(2, QtWidgets.QApplication.translate("MainWindow", "JSON (application/json)", None, -1))
+        self.comboBox.setItemText(3, QtWidgets.QApplication.translate("MainWindow", "Javascript (application/javascript)", None, -1))
+        self.comboBox.setItemText(4, QtWidgets.QApplication.translate("MainWindow", "XML (application/xml)", None, -1))
+        self.comboBox.setItemText(5, QtWidgets.QApplication.translate("MainWindow", "XML (text/xml)", None, -1))
+        self.comboBox.setItemText(6, QtWidgets.QApplication.translate("MainWindow", "HTML (text/html)", None, -1))
+        self.requestContentTabs.setTabText(self.requestContentTabs.indexOf(self.reqBodyTab), QtWidgets.QApplication.translate("MainWindow", "Request body", None, -1))
 

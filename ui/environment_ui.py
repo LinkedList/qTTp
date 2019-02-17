@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'enironment.ui'
+# Form implementation generated from reading ui file 'enironment.ui',
+# licensing of 'enironment.ui' applies.
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created: Sun Feb 17 10:15:13 2019
+#      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -36,7 +38,6 @@ class Ui_environmentForm(object):
         QtCore.QMetaObject.connectSlotsByName(environmentForm)
 
     def retranslateUi(self, environmentForm):
-        _translate = QtCore.QCoreApplication.translate
-        environmentForm.setWindowTitle(_translate("environmentForm", "Form"))
-        self.environmentEdit.setText(_translate("environmentForm", "Edit Env."))
+        environmentForm.setWindowTitle(QtWidgets.QApplication.translate("environmentForm", "Form", None, -1))
+        self.environmentEdit.setText(QtWidgets.QApplication.translate("environmentForm", "Edit Env.", None, -1))
 

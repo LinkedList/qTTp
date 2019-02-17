@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'response_info.ui'
+# Form implementation generated from reading ui file 'response_info.ui',
+# licensing of 'response_info.ui' applies.
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created: Sun Feb 17 10:16:18 2019
+#      by: pyside2-uic  running on PySide2 5.12.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -18,8 +20,8 @@ class Ui_ResponseInfo(object):
         sizePolicy.setHeightForWidth(ResponseInfo.sizePolicy().hasHeightForWidth())
         ResponseInfo.setSizePolicy(sizePolicy)
         self.reqStatusLayout = QtWidgets.QHBoxLayout(ResponseInfo)
-        self.reqStatusLayout.setContentsMargins(6, 0, -1, 0)
         self.reqStatusLayout.setSpacing(5)
+        self.reqStatusLayout.setContentsMargins(6, 0, -1, 0)
         self.reqStatusLayout.setObjectName("reqStatusLayout")
         self.statusCode = QtWidgets.QLabel(ResponseInfo)
         self.statusCode.setStyleSheet("")
@@ -28,6 +30,7 @@ class Ui_ResponseInfo(object):
         self.reqStatusLayout.addWidget(self.statusCode)
         self.time = QtWidgets.QLabel(ResponseInfo)
         self.time.setText("")
+        self.time.setMargin(5)
         self.time.setObjectName("time")
         self.reqStatusLayout.addWidget(self.time)
         self.contentType = QtWidgets.QLabel(ResponseInfo)

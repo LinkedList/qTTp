@@ -13,15 +13,17 @@ from PySide2.QtWidgets import (
     QTabWidget, QApplication, QMainWindow, QMenu, QHeaderView, QTableWidgetItem, QFileDialog)
 
 from environment import EnvironmentSwitcher
-from file_line import FileLine
-from collections_history_tabs import CollectionsHistoryTabs
 from headers_completer import HeadersCompleter
 from req import Req
 from req_thread import ReqThread
 from response_tabs_widget import ResponseTabsWidget
+from file_line import FileLine
+from collections_history_tabs import CollectionsHistoryTabs
 from response_info import ResponseInfo
 from status_bar import StatusBar
-from ui import Ui_MainWindow
+
+from ui.main_ui import Ui_MainWindow
+
 from url_completer import UrlCompleter
 from key_value_editor import KeyValueEditor
 
