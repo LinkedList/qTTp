@@ -83,5 +83,5 @@ def getHeadersData():
         "Vary",
         "Via",
         "Warning",
-        "WWW-Authenticate"
+        "WWW-Authenticate",
     ]

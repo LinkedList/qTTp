@@ -2,6 +2,7 @@ from http.client import responses
 from ui.response_info_ui import Ui_ResponseInfo
 from PySide2.QtWidgets import QWidget
 
+
 class ResponseInfo(QWidget, Ui_ResponseInfo):
     def __init__(self):
         super(ResponseInfo, self).__init__()

@@ -18,7 +18,10 @@ class Req(object):
         self.context = context
 
     def isFormData(self):
-        return 'Content-Type' in self.headers and self.headers['Content-Type'] == "multipart/form-data"
+        return (
+            "Content-Type" in self.headers
+            and self.headers["Content-Type"] == "multipart/form-data"
+        )
 
     def buildUrl(self):
         return self.transform(self.protocol + "://" + self.url)
@@ -33,20 +36,18 @@ class Req(object):
         data = self.buildDataObj()
         if self.isFormData():
             data = self.dataToMultipart(data)
-            self.headers['Content-Type'] = data.content_type
+            self.headers["Content-Type"] = data.content_type
 
         headers = self.buildHeaders(self.headers)
 
         pprint(vars(self))
         pprint(data)
         return requests.request(
-            method=self.method,
-            url=self.buildUrl(),
-            headers=headers,
-            data=data)
+            method=self.method, url=self.buildUrl(), headers=headers, data=data
+        )
 
     def dataToMultipart(self, data):
-        return MultipartEncoder(fields = data)
+        return MultipartEncoder(fields=data)
 
     def buildHeaders(self, headers):
         data = {}
@@ -56,12 +57,12 @@ class Req(object):
 
     def buildDataObj(self):
         if self.isBinary():
-            data = open(self.transform(self.file), 'rb').read()
+            data = open(self.transform(self.file), "rb").read()
         elif type(self.body) == dict:
-            activeData = {k: v for k, v in self.body.items() if v['active'] == True}
+            activeData = {k: v for k, v in self.body.items() if v["active"] == True}
             data = {}
             for k, v in activeData.items():
-                data[self.transform(k)] = self.transform(v['value'])
+                data[self.transform(k)] = self.transform(v["value"])
         else:
             data = self.transform(self.body)
         return data

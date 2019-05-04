@@ -35,8 +35,7 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
         self.collectionsTree.expandToDepth(0)
         self.collectionsTree.doubleClicked.connect(self.emitItem)
         self.collectionsTree.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.collectionsTree.customContextMenuRequested.connect(
-            self.collectionsMenu)
+        self.collectionsTree.customContextMenuRequested.connect(self.collectionsMenu)
 
     def emitItem(self, item):
         req = item.data(Qt.UserRole)
@@ -78,8 +77,7 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
     def _saveRequest(self, item):
         maybeSelected = self.collectionsTree.selectedIndexes()
         if maybeSelected:
-            collection = self.collectionsModel.item(
-                maybeSelected[0].row()).text()
+            collection = self.collectionsModel.item(maybeSelected[0].row()).text()
         else:
             self.saveDialog = SaveToCollectionDialog(self.getCollections())
             self.saveDialog.exec_()
@@ -100,7 +98,9 @@ class CollectionsHistoryTabs(QTabWidget, Ui_CollectionsHistoryTabs):
         historyItem.setText(reqObject.buildTextRepresentation())
         historyItem.setEditable(False)
         historyItem.setData(reqObject, Qt.UserRole)
-        parent.insertRow(0, [historyItem]) #seems like a hack inserting list here, possilby report
+        parent.insertRow(
+            0, [historyItem]
+        )  # seems like a hack inserting list here, possilby report
 
     def addCollectionItem(self, collection, item):
         items = self.collectionsModel.findItems(collection)

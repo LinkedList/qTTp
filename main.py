@@ -10,7 +10,14 @@ from urllib.parse import urlparse
 from PySide2 import QtCore
 from PySide2.QtCore import Qt
 from PySide2.QtWidgets import (
-    QTabWidget, QApplication, QMainWindow, QMenu, QHeaderView, QTableWidgetItem, QFileDialog)
+    QTabWidget,
+    QApplication,
+    QMainWindow,
+    QMenu,
+    QHeaderView,
+    QTableWidgetItem,
+    QFileDialog,
+)
 
 from environment import EnvironmentSwitcher
 from headers_completer import HeadersCompleter
@@ -86,19 +93,18 @@ class Qttp(QMainWindow, Ui_MainWindow):
         self.currentBodyEditor = self.requestBody
 
     def rawTypeChanged(self, rawType):
-        if rawType is not 'Text':
-            contentTypeToSet = re.search(
-                r"\(([A-Za-z0-9_/]+)\)", rawType).group(1)
+        if rawType is not "Text":
+            contentTypeToSet = re.search(r"\(([A-Za-z0-9_/]+)\)", rawType).group(1)
             self.setContentType(contentTypeToSet)
 
     def postBodySwitched(self, button):
         if button is self.formUrlEncodedButton:
-            self.setContentType('application/x-www-form-urlencoded')
+            self.setContentType("application/x-www-form-urlencoded")
         elif button is self.binaryButton:
-            self.setContentType('application/octet-stream')
+            self.setContentType("application/octet-stream")
 
         elif button is self.formDataButton:
-            self.setContentType('multipart/form-data')
+            self.setContentType("multipart/form-data")
 
         if button is self.rawButton:
             self.comboBox.setEnabled(True)
@@ -121,8 +127,7 @@ class Qttp(QMainWindow, Ui_MainWindow):
         self.currentBodyEditor.setParent(None)
 
     def setContentType(self, contentTypeToSet):
-        contentType = self.inputHeaders.findItems(
-            "Content-Type", Qt.MatchExactly)
+        contentType = self.inputHeaders.findItems("Content-Type", Qt.MatchExactly)
         if len(contentType) > 0:
             row = contentType[0].row()
         else:
@@ -131,7 +136,7 @@ class Qttp(QMainWindow, Ui_MainWindow):
         item = self.inputHeaders.item(row, 1)
         if not item:
             headerName = QTableWidgetItem()
-            headerName.setText('Content-Type')
+            headerName.setText("Content-Type")
             self.inputHeaders.setItem(row, 0, headerName)
             item = QTableWidgetItem()
             self.inputHeaders.setItem(row, 1, item)
@@ -141,23 +146,23 @@ class Qttp(QMainWindow, Ui_MainWindow):
 
     def getMainSplitterSizes(self):
         config = self.config
-        config.read('config.ini')
-        sizes = config['splitter']['sizes']
+        config.read("config.ini")
+        sizes = config["splitter"]["sizes"]
         if sizes:
-            return [int(s) for s in sizes.split(',')]
+            return [int(s) for s in sizes.split(",")]
 
         return []
 
     def prepareConfig(self):
         config = ConfigParser()
-        config.read('config.ini')
-        if not config.has_section('splitter'):
-            config['splitter'] = {}
+        config.read("config.ini")
+        if not config.has_section("splitter"):
+            config["splitter"] = {}
 
-        if not config.has_option('splitter', 'sizes'):
-            config['splitter']['sizes'] = ",".join(map(str, [200, 400, 400]))
+        if not config.has_option("splitter", "sizes"):
+            config["splitter"]["sizes"] = ",".join(map(str, [200, 400, 400]))
 
-        with open('config.ini', 'w') as configfile:
+        with open("config.ini", "w") as configfile:
             config.write(configfile)
         self.config = config
 
@@ -218,11 +223,8 @@ class Qttp(QMainWindow, Ui_MainWindow):
         return Req(method, protocol, url, headers, body, rawFile, self.getContext())
 
     def getContext(self):
-        #Temporary stuff
-        return {
-                "url": "api.github.com",
-                "file": "/home/martin/pseudo.txt"
-                }
+        # Temporary stuff
+        return {"url": "api.github.com", "file": "/home/martin/pseudo.txt"}
 
     def request(self):
         self.responseInfo.reset()
@@ -281,16 +283,15 @@ class Qttp(QMainWindow, Ui_MainWindow):
 
     def closeEvent(self, event):
         config = self.config
-        config['splitter']['sizes'] = ",".join(
-            map(str, self.mainSplitter.sizes()))
-        with open('config.ini', 'w') as configfile:
+        config["splitter"]["sizes"] = ",".join(map(str, self.mainSplitter.sizes()))
+        with open("config.ini", "w") as configfile:
             config.write(configfile)
 
     def setTime(self, elapsed_seconds):
         self.time.setText(str(int(elapsed_seconds * 1000)) + " ms")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     prog = Qttp()
     prog.show()

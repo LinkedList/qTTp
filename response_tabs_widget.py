@@ -11,12 +11,11 @@ class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
     def setHeaders(self, headers):
         headersText = ""
         for key in sorted(headers):
-            headersText += "<b>" + key + "</b>" + \
-                ": " + headers[key] + "<br />"
+            headersText += "<b>" + key + "</b>" + ": " + headers[key] + "<br />"
         self.headersText.setHtml(headersText)
 
     def setResponseBody(self, response):
-        if 'application/json' in response.headers['content-type']:
+        if "application/json" in response.headers["content-type"]:
             body = self.parseJson(response)
             self.responseText.setHtml(body)
         else:
@@ -29,8 +28,11 @@ class ResponseTabsWidget(QTabWidget, Ui_ResponseTabs):
             response.json()
             j = response.text
             parse = json.loads(j)
-            dump = json.dumps(obj=parse, indent=4).replace(
-                " ", "&nbsp;").replace("\n", "<br />")
+            dump = (
+                json.dumps(obj=parse, indent=4)
+                .replace(" ", "&nbsp;")
+                .replace("\n", "<br />")
+            )
             return dump
         except ValueError:
             return ""

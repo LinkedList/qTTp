@@ -2,6 +2,7 @@ from PySide2.QtWidgets import QWidget
 from PySide2.QtCore import Signal
 from ui.status_bar_ui import Ui_StatusBar
 
+
 class StatusBar(QWidget, Ui_StatusBar):
 
     cancel_request = Signal()

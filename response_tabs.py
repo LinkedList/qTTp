@@ -8,11 +8,14 @@
 
 from PySide2 import QtCore, QtGui, QtWidgets
 
+
 class Ui_ResponseTabs(object):
     def setupUi(self, ResponseStatusBar):
         ResponseStatusBar.setObjectName("ResponseStatusBar")
         self.responseTab = QtWidgets.QWidget()
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.responseTab.sizePolicy().hasHeightForWidth())
@@ -22,7 +25,9 @@ class Ui_ResponseTabs(object):
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.responseText = QtWidgets.QTextBrowser(self.responseTab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.responseText.sizePolicy().hasHeightForWidth())
@@ -31,7 +36,9 @@ class Ui_ResponseTabs(object):
         self.verticalLayout_2.addWidget(self.responseText)
         ResponseStatusBar.addTab(self.responseTab, "")
         self.headersTab = QtWidgets.QWidget()
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.headersTab.sizePolicy().hasHeightForWidth())
@@ -41,7 +48,9 @@ class Ui_ResponseTabs(object):
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.headersText = QtWidgets.QTextBrowser(self.headersTab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.headersText.sizePolicy().hasHeightForWidth())
@@ -56,6 +65,11 @@ class Ui_ResponseTabs(object):
 
     def retranslateUi(self, ResponseStatusBar):
         _translate = QtCore.QCoreApplication.translate
-        ResponseStatusBar.setTabText(ResponseStatusBar.indexOf(self.responseTab), _translate("ResponseTabs", "Response"))
-        ResponseStatusBar.setTabText(ResponseStatusBar.indexOf(self.headersTab), _translate("ResponseTabs", "Headers"))
-
+        ResponseStatusBar.setTabText(
+            ResponseStatusBar.indexOf(self.responseTab),
+            _translate("ResponseTabs", "Response"),
+        )
+        ResponseStatusBar.setTabText(
+            ResponseStatusBar.indexOf(self.headersTab),
+            _translate("ResponseTabs", "Headers"),
+        )
