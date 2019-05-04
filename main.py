@@ -17,6 +17,7 @@ from PySide2.QtWidgets import (
     QHeaderView,
     QTableWidgetItem,
     QFileDialog,
+    QAction,
 )
 
 from environment import EnvironmentSwitcher
@@ -42,6 +43,8 @@ class Qttp(QMainWindow, Ui_MainWindow):
 
         self.prepareConfig()
         self.fileLine = FileLine()
+
+        self.prepareMenu()
 
         self.envrionmentSwitcher = EnvironmentSwitcher()
 
@@ -91,6 +94,15 @@ class Qttp(QMainWindow, Ui_MainWindow):
         self.method.currentTextChanged.connect(self.onMethodChange)
         self.comboBox.currentTextChanged.connect(self.rawTypeChanged)
         self.currentBodyEditor = self.requestBody
+
+    def prepareMenu(self):
+
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu("&File")
+        exitAction = fileMenu.addAction("Exit")
+        exitAction.triggered.connect(self.close)
+        exitAction.setShortcut("Ctrl+Q")
+
 
     def rawTypeChanged(self, rawType):
         if rawType is not "Text":
